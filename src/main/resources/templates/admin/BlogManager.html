@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/header::header-fragment"></head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+      <!-- 引入页面头header-nav -->
+      <div th:replace="admin/header::header-nav"></div>
+      <!-- 引入工具栏sidebar-fragment -->
+      <div th:replace="admin/siderbar::sidebar-fragment('manager')"></div>
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+          </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-12">
+              <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h3 class="card-title">博客管理</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                                <div>
+                                    <button type="button" class="btn btn-primary" onclick="location.href='/admin/editors'">
+                                        <i class="fa fa-plus"></i>&nbsp;增加
+                                        </button>
+                                </div>
+                    <table id="blogTable"></table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- 引入页脚footer-fragment -->
+      <div th:replace="admin/footer::footer-fragment"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin/dist/js/bootstrap.bundle.min.js}" ></script>
+<!--BootstrapTable-->
+<script src="https://cdn.bootcss.com/bootstrap-table/1.15.3/bootstrap-table.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.15.3/locale/bootstrap-table-zh-CN.js"></script>
+<!-- FastClick -->
+<script th:src="@{/admin/dist/js/fastclick.js}" ></script>
+<!-- AdminLTE App -->
+<script th:src="@{/admin/dist/js/adminlte.min.js}"></script>
+<script th:src="@{/admin/dist/js/sweetalert.min.js}"></script>
+<script th:src="@{/admin/dist/js/BlogManager.js}"></script>
+</body>
+</html>

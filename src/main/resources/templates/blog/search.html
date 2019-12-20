@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>LBlog-搜索文章</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="alternate icon" type="image/png" th:href="@{/blog/dist/img/blog.png}" >
+  <link rel="stylesheet" th:href="@{http://cdn.clouddeep.cn/amazeui/1.0.1/css/amazeui.min.css}"/>
+  <link rel="stylesheet" th:href="@{/blog/dist/css/common.css}"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/admin/dist/css/all.css}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" th:href="@{/admin/dist/css/ionicons.min.css}" >
+</head>
+<body>
+<div th:replace="blog/head_nav::blog-head-nav('search')"></div>
+
+<div class="am-g am-g-fixed blog-g-fixed">
+
+ <div class="col-md-8">
+   <th:block th:each="blog,iterStat:${pageInfo.list}">
+     <article class="blog-main" data-am-scrollspy="{animation:'scale-up',delay:100}">
+       <h2 class="am-article-title blog-title">
+         <a th:href="@{'/show/'+${blog.id}}" th:utext="${blog.articleTitle}"  target="_blank"></a>
+       </h2>
+       <h3 class="am-article-meta blog-meta"><i class="far fa-calendar-alt"></i>&nbsp;<span th:utext="${#dates.format(blog.createBy, 'yyyy-MM-dd ')}"th:onclick="archive([[${#dates.format(blog.createBy, 'yyyy')}]])" class="Date">&nbsp;&nbsp;</span><i class="fas fa-user"></i>&nbsp;<span>林北</span>&nbsp;&nbsp;<th:block th:if="${blog.sortNames != null}">
+         <th:block th:each="sortName:${blog.sortNames}">
+           <span class="am-badge am-badge-primary" th:text="${sortName}"></span>
+         </th:block>
+       </th:block></h3>
+
+       <div class="am-g blog-content">
+         <div class="col-lg-7">
+           <p><img th:src="${blog.imageUrl}"  th:onclick="'image('+${blog.id}+')'" class="am-img-bdrs"></p>
+         </div>
+       </div>
+     </article>
+
+     <hr class="am-article-divider blog-hr">
+   </th:block>
+    <ul class="am-pagination blog-pagination">
+      <th:block th:switch="${pageInfo.hasPreviousPage}">
+        <li th:case="false" class="am-pagination-prev"></li>
+        <li th:case="true" class="am-pagination-prev"><a th:href="@{'/searchPage/'+${pageInfo.prePage}}">上一页</a></li>
+      </th:block>
+      <th:block th:switch="${pageInfo.hasNextPage}">
+        <li th:case="true" class="am-pagination-next"><a th:href="@{'/searchPage/'+${pageInfo.nextPage}}">下一页</a></li>
+        <li th:case="false" class="am-pagination-next"></li>
+      </th:block>
+    </ul>
+  </div>
+
+    <div th:replace="blog/blog_sidebar::blog-sidebar"></div>
+
+</div>
+
+<hr>
+<div th:replace="blog/blog_footer::blog_footer"></div>
+<script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+<script th:src="@{/blog/dist/js/zepto.min.js}"></script>
+<script th:src="@{http://cdn.clouddeep.cn/amazeui/1.0.1/js/amazeui.min.js}"></script>
+<script th:src="@{/blog/dist/js/search.js}"></script>
+<script th:src="@{/admin/dist/js/sweetalert.min.js}"></script>
+<script th:src="@{/blog/dist/js/common.js}"></script>
+</body>
+</html>

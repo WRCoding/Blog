@@ -1,0 +1,128 @@
+
+<!--个人中心页面，目前没有用-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/header::header-fragment"></head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- 引入页面头header-nav -->
+    <div th:replace="admin/header::header-nav"></div>
+    <!-- 引入工具栏sidebar-fragment -->
+    <div th:replace="admin/siderbar::sidebar-fragment('profile')"></div>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>个人中心</h1>
+          </div>       
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="offset-md-3 col-md-5">
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       th:src="@{/admin/dist/img/photo4.jpg}"
+                       alt="User profile picture">
+                </div>
+
+                <h3 class="profile-username text-center">林北</h3>
+
+                <p class="text-muted text-center">搬砖者</p>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b>ID</b> <a class="float-right">1,322</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>个性签名</b> <a class="float-right">努力，奋斗</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>上次登录时间</b> <a class="float-right">2019-07-08</a>
+                  </li>
+                </ul>
+
+                <button class="btn btn-primary float-right col-md-3" disabled><b>修改密码</b></button>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+            <!-- About Me Box -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">关于我</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <strong><i class="fas fa-book mr-1"></i> CSDN</strong>
+
+                <p class="text-muted">
+                  https://blog.csdn.net/qq_40866897
+                </p>
+
+                <hr>
+
+                <strong><i class="fas fa-map-marker-alt mr-1"></i> GitHub</strong>
+
+                <p class="text-muted">https://github.com/WRCoding</p>
+
+                <hr>
+
+                <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
+
+                <p class="text-muted">
+                  <span class="tag label-danger">Java</span>
+                  <span class="label label-success">Spring</span>
+                  <span class="label label-info">Javascript</span>
+                  <span class="label label-warning">SpringBoot</span>
+                  <span class="label label-primary">Mybatis</span>
+                  <span class="label label-default ">SpringMvc</span>
+                </p>
+
+                <hr>
+
+                <strong><i class="far fa-file-alt mr-1"></i> 邮箱</strong>
+
+                <p class="text-muted">846179345@qq.com</p>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+    <!-- 引入页脚footer-fragment -->
+    <div th:replace="admin/footer::footer-fragment"></div>
+
+
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin/dist/js/bootstrap.bundle.min.js}" ></script>
+<!-- FastClick -->
+<script th:src="@{/admin/dist/js/fastclick.js}" ></script>
+<!-- AdminLTE App -->
+<script th:src="@{/admin/dist/js/adminlte.min.js}"></script>
+
+</body>
+</html>

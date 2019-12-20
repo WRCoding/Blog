@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/header::header-fragment"></head>
+<body class="hold-transition sidebar-mini">
+<link rel="stylesheet" th:href="@{/admin/dist/plugins/editormd/css/editormd.css}">
+<link rel="stylesheet" th:href="@{/admin/dist/css/select2.min.css}">
+<div class="wrapper">
+    <!-- 引入页面头header-nav -->
+    <div th:replace="admin/header::header-nav"></div>
+    <!-- 引入工具栏sidebar-fragment -->
+    <div th:replace="admin/siderbar::sidebar-fragment('historicalViews')"></div>
+    <!-- Content Wrapper. Contains page content -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">       
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="content">
+        <div class="container-fluid">
+          <div class="card card-outline card-primary">
+            <div class="card-header">
+              <h3 class="card-title">历史浏览量</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <canvas id="viewChart" width="100%" height="100%"></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-->
+      </div>
+      <!-- ./row -->
+    </section>
+    <!-- /.content -->
+  </div>
+    <!-- /.content-wrapper -->
+    <!-- 引入页脚footer-fragment -->
+    <div th:replace="admin/footer::footer-fragment"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin/dist/js/bootstrap.bundle.min.js}" ></script>
+<!-- FastClick -->
+<script th:src="@{/admin/dist/js/fastclick.js}" ></script>
+<!-- AdminLTE App -->
+<script th:src="@{/admin/dist/js/adminlte.min.js}"></script>
+<script th:src="@{/admin/dist/plugins/editormd/editormd.min.js}"></script>
+<script th:src="@{/admin/dist/js/sweetalert.min.js}"></script>
+<script th:src="@{/admin/dist/plugins/select2/select2.min.js}"></script>
+<script th:src="@{/admin/dist/js/Chart.min.js}"></script>
+<script th:src="@{/admin/dist/js/HistoricalViews.js}"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LBlog-错误</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="alternate icon" type="image/png" th:href="@{/blog/dist/img/blog.png}" >
+    <link rel="stylesheet" th:href="@{http://cdn.clouddeep.cn/amazeui/1.0.1/css/amazeui.min.css}"/>
+    <style>
+        @media only screen and (min-width: 1200px) {
+            .blog-g-fixed {
+                max-width: 1200px;
+            }
+        }
+
+        @media only screen and (min-width: 641px) {
+            .blog-sidebar {
+                font-size: 1.4rem;
+            }
+        }
+
+        .blog-main {
+            padding: 20px 0;
+        }
+
+        .blog-title {
+            margin: 10px 0 20px 0;
+        }
+
+        .blog-meta {
+            font-size: 14px;
+            margin: 10px 0 20px 0;
+            color: #222;
+        }
+
+        .blog-meta a {
+            color: #27ae60;
+        }
+
+        .blog-pagination a {
+            font-size: 1.4rem;
+        }
+
+        .blog-team li {
+            padding: 4px;
+        }
+
+        .blog-team img {
+            margin-bottom: 0;
+        }
+
+        .blog-footer {
+            padding: 10px 0;
+            text-align: center;
+        }
+        .am-article-title a:hover{
+            color: #7fc0ff;
+        }
+        #search:hover{
+            cursor:pointer;
+        }
+
+    </style>
+</head>
+<body>
+<header class="am-topbar">
+    <h1 class="am-topbar-brand">
+        <a th:href="@{/}"><b>L</b>-Blog</a>
+    </h1>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse am-topbar-right" id="doc-topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav">
+            <li class="am-active"><a th:href="@{/}">首页</a></li>
+            <li><a th:href="@{https://github.com/WRCoding}" target="_blank">GitHub</a></li>
+            <li><a th:href="@{https://blog.csdn.net/qq_40866897}" target="_blank">CSDN</a></li>
+            <li><a th:href="@{/resume}" target="_blank">关于我</a></li>
+        </ul>
+    </div>
+</header>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="am-panel am-panel-danger " style="margin-left:20%;margin-right: 20%" >
+    <div class="am-panel-hd" style="text-align: center"><h1>哦偶</h1></div>
+    <div class="am-panel-bd" style="text-align: center">
+        不可预知的错误，请联系管理员！
+    </div>
+</div>
+
+<div>
+    <div th:utext="'&lt;!--'" th:remove="tag"></div>
+    <div th:utext="'Failed Request URL : '+ ${url}" th:remove="tag"></div>
+    <div th:utext="'Exception #messages :'+ ${exception.message}" th:remove="tag"></div>
+    <ul th:remove="tag">
+        <li th:each="st : ${exception.stackTrace}" th:remove="tag"><span th:utext="${st}" th:remove="tag"></span></li>
+    </ul>
+    <div th:utext="'--&gt;'" th:remove="tag"></div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<hr>
+<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{  }">
+    <div class="am-footer-switch">
+        <p>Personal Blog ·L-Blog&nbsp;&nbsp; Created by 2019 - <a th:href="@{https://blog.csdn.net/qq_40866897}">林北</a>
+    </div>
+    <div class="am-footer-miscs ">
+        <p>琼ICP备19003335号-1</p>
+    </div>
+</footer>
+<script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+<script th:src="@{/blog/dist/js/zepto.min.js}"></script>
+<script th:src="@{http://cdn.clouddeep.cn/amazeui/1.0.1/js/amazeui.min.js}"></script>
+<script th:src="@{/blog/dist/js/search.js}"></script>
+<script th:src="@{/admin/dist/js/sweetalert.min.js}"></script>
+</body>
+</html>

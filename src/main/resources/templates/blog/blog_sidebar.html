@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="blog-sidebar" class="col-md-4 blog-sidebar">
+    <br>
+    <br>
+    <br>
+    <div class="am-panel-group">
+        <form class="am-form" action="/search" method="post" id="searchForm" onkeydown="if(event.keyCode==13){return false;}">
+            <div class="am-form-group am-form-icon am-form-feedback">
+                <i class="am-icon-search" id="search"></i>
+                <div id="searchDiv">
+                    <input type="text"  placeholder="搜索文章" id="searchKey" name="searchKey">
+                </div>
+            </div>
+        </form>
+        <section class="am-panel am-panel-primary">
+            <div class="am-panel-hd">最新文章</div>
+            <ul class="am-list blog-list">
+                <th:block th:each="title,iterStat:${titleBlogs}">
+                    <li><a th:href="@{'/show/'+${title.id}}" th:text="${title.articleTitle}" target="_blank"></a></li>
+                </th:block>
+            </ul>
+        </section>
+        <section class="am-panel am-panel-primary">
+            <div class="am-panel-hd">点击最多</div>
+            <ul class="am-list blog-list">
+                <th:block th:each="views,iterStat:${viewsBlogs}">
+                    <li><a th:href="@{'/show/'+${views.id}}" th:text="${views.articleTitle}" target="_blank"></a></li>
+                </th:block>
+            </ul>
+        </section>
+        <div class="am-panel  am-panel-primary">
+            <div class="am-panel-hd">
+                分类
+                <a style="float: right;color: black" href="/all_sort" target="_blank">more &raquo;</a>
+            </div>
+            <div class="am-panel-bd" id="sortPanel" style="word-wrap:break-word">
+            </div>
+        </div>
+        <section class="am-panel am-panel-primary">
+            <div class="am-panel-hd">
+                归档
+                <a style="float: right;color: black" href="/archive" target="_blank" >more &raquo;</a>
+            </div>
+            <ul class="am-list blog-list" id="archiveUl">
+            </ul>
+        </section>
+        <!--<section class="am-panel am-panel-success">-->
+            <!--<div class="am-panel-hd" >-->
+                <!--关于我-->
+                <!--<a style="float: right;color: black" href="/resume" target="_blank">more &raquo;</a>-->
+            <!--</div>-->
+            <!--<div class="am-panel-bd" id="resume">-->
+                <!--<p>一名来自TJPU的大四的小白，对编程有着强烈的兴趣，对新鲜事物保持极高的好奇心，所以写了个人博客来记录我在编程路上遇到的困难和所学到的技术，以及一些个人在编程路上的心路历程</p>-->
+            <!--</div>-->
+        <!--</section>-->
+    </div>
+</div>
+</html>

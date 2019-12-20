@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>LBlog-全部分类</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="alternate icon" type="image/png" th:href="@{/blog/dist/img/blog.png}" >
+  <link rel="stylesheet" th:href="@{http://cdn.clouddeep.cn/amazeui/1.0.1/css/amazeui.min.css}"/>
+  <link rel="stylesheet" th:href="@{/blog/dist/css/common.css}"/>
+  <style>
+    @media only screen and (min-width: 641px) {
+      .am-offcanvas {
+        display: block;
+        position: static;
+        background: none;
+      }
+
+      .am-offcanvas-bar {
+        position: static;
+        width: auto;
+        background: none;
+        -webkit-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+      }
+      .am-offcanvas-bar:after {
+        content: none;
+      }
+
+    }
+    .m-fixed{
+      position: fixed;
+      z-index: 10;
+    }
+    .m-right-bottom{
+      bottom: 0;
+      right: 0;
+      padding: 1em;
+    }
+    #qrcode {
+      width:50%;
+      height:50%;
+      margin:0 auto;
+    }
+    @media only screen and (max-width: 640px) {
+      .am-offcanvas-bar .am-nav>li>a {
+        color:#ccc;
+        border-radius: 0;
+        border-top: 1px solid rgba(0,0,0,.3);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.05)
+      }
+
+      .am-offcanvas-bar .am-nav>li>a:hover {
+        background: #404040;
+        color: #fff
+      }
+
+      .am-offcanvas-bar .am-nav>li.am-nav-header {
+        color: #777;
+        background: #404040;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+        text-shadow: 0 1px 0 rgba(0,0,0,.5);
+        border-top: 1px solid rgba(0,0,0,.3);
+        font-weight: 400;
+        font-size: 75%
+      }
+
+      .am-offcanvas-bar .am-nav>li.am-active>a {
+        background: #1a1a1a;
+        color: #fff;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,.3)
+      }
+
+      .am-offcanvas-bar .am-nav>li+li {
+        margin-top: 0;
+      }
+    }
+
+    .my-head {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .my-button {
+      position: fixed;
+      top: 0;
+      right: 0;
+      border-radius: 0;
+    }
+    .my-sidebar {
+      padding-right: 0;
+      border-right: 1px solid #eeeeee;
+    }
+
+    .my-footer {
+      border-top: 1px solid #eeeeee;
+      padding: 10px 0;
+      margin-top: 10px;
+      text-align: center;
+    }
+    textarea{
+      resize: none;
+    }
+  </style>
+</head>
+<body>
+<div th:replace="blog/head_nav::blog-head-nav('all_sort')"></div>
+
+<div class="am-g my-head" >
+  <div class="col-sm-12 am-article">
+    <h1 class="am-article-title"><b>全部分类</b></h1>
+    <hr>
+  </div>
+</div>
+<br>
+<br>
+<br>
+<!--博客主体-->
+<div id="waypoint" class="am-g am-g-fixed am-animation-fade ">
+  <div class="col-md-9 col-md-push-3">
+    <h1 class="am-article-title" style="text-align: center" id="sortName">2019</h1>
+    <ul class="am-nav" id="titleUl">
+    </ul>
+  </div>
+  <div class="col-md-3 col-md-pull-9 my-sidebar">
+    <div>
+      <div>
+        <ul class="am-nav" id="sortUl">
+          <li><h5 style="text-align: center;">分类</h5></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<br>
+<hr>
+<div th:replace="blog/blog_footer::blog_footer"></div>
+<script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+<script th:src="@{/blog/dist/js/zepto.min.js}"></script>
+<script th:src="@{http://cdn.clouddeep.cn/amazeui/1.0.1/js/amazeui.min.js}"></script>
+<script th:src="@{/blog/dist/js/search.js}"></script>
+<script th:src="@{/admin/dist/js/sweetalert.min.js}"></script>
+<script>
+    $(function () {
+      allSorts(1,'SpringMVC');
+        $.ajax({
+            type: 'POST',
+            url: '/allSorts',
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (index,element) {
+                  var li = '<li><a class="am-btn" onclick=allSorts("'+element.id+'","'+element.sortName+'") >'+element.sortName+'<span class="am-badge am-badge-success" style="margin-left: 20px;">'+element.sortNumber+'</span></a></li>';
+                  $('#sortUl').append(li);
+                })
+            }
+        })
+    });
+    function allSorts(sortId,sortName) {
+      $('#titleUl').find('li').remove();
+      $('#sortName').html(sortName);
+      var data = {"sortId":sortId};
+      $.ajax({
+          method: 'POST',
+          url:'/sortToBlog',
+          data:data,
+          success: function (data) {
+              console.log(data);
+            $.each(data, function (index, element) {
+              var date = new Date(element.createBy).toLocaleString();
+              var title = element.articleTitle;
+              var text = title+"&nbsp;"+date;
+              var li = ' <li><a class="am-btn" href="/show/'+element.id+'" target="_blank">'+text+'</a></li>'
+              $('#titleUl').append(li);
+            })
+          }
+      })
+    }
+</script>
+</body>
+</html>

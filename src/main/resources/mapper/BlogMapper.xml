@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lb.lblog.dao.BlogMapper">
+    <insert id="saveBlogInfo" parameterType="blogInfo" useGeneratedKeys = "true" keyProperty = "id" keyColumn = "id">
+        insert into blog_article_info(author,article_title) values (#{author},#{articleTitle})
+    </insert>
+    <insert id="saveBlogContent" parameterType="blogInfo">
+        insert into blog_article_content(article_content,article_id)values(#{articleContent},#{articleId})
+    </insert>
+    <insert id="saveImageUrl" parameterType="blogInfo">
+        insert into blog_article_image(article_id,image_url)values(#{articleId},#{imageUrl})
+    </insert>
+
+    <select id="blogList" resultType="blogInfo">
+        SELECT
+            blog_article_info.id,
+            article_title,
+            image_url,
+            article_views,
+            blog_article_info.create_by
+        FROM
+            ( blog_article_info LEFT JOIN blog_article_content ON blog_article_info.id = blog_article_content.article_id )
+            LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id
+        WHERE
+            blog_article_info.is_delete = 0 And blog_article_info.author = #{username}
+        ORDER BY
+            blog_article_info.create_by DESC
+            LIMIT #{offset},#{limit}
+    </select>
+
+    <select id="totalCount" resultType="int">
+        select count(*) from blog_article_info WHERE blog_article_info.is_delete = 0 and author = #{username}
+    </select>
+
+    <!--<select id="editBlog" parameterType="int" resultType="blogInfo">-->
+        <!--SELECT-->
+            <!--blog_article_info.id,-->
+            <!--article_title,-->
+            <!--image_url,-->
+            <!--article_content-->
+        <!--FROM-->
+            <!--( blog_article_info LEFT JOIN blog_article_content ON blog_article_info.id = blog_article_content.article_id )-->
+            <!--LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id-->
+        <!--WHERE-->
+            <!--blog_article_info.id = #{id}-->
+	<!--</select>-->
+
+    <select id="blogs" resultType="blogInfo">
+        SELECT
+            blog_article_info.id,
+			author,
+            article_title,
+            image_url,
+            GROUP_CONCAT( blog_sort.sort_name ) AS sorts,
+            blog_article_info.create_by,
+            article_views
+        FROM
+            (((
+                        blog_article_info
+                        LEFT JOIN blog_article_content ON blog_article_info.id = blog_article_content.article_id
+                        )
+                    LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id
+                    )
+                LEFT JOIN blog_info_sort ON blog_info_sort.article_id = blog_article_info.id
+            )
+            LEFT JOIN blog_sort ON blog_sort.id = blog_info_sort.sort_id
+        WHERE
+            blog_article_info.is_delete = 0
+            AND blog_sort.is_effective = 1
+        GROUP BY
+            blog_article_info.id
+        ORDER BY
+            blog_article_info.create_by DESC
+	</select>
+
+    <select id="showBlog" parameterType="int" resultType="blogInfo">
+             SELECT
+        blog_article_info.id,
+        blog_article_info.author,
+        article_title,
+        article_content,
+        image_url,
+        article_views,
+        blog_article_info.create_by,
+        blog_article_info.like_num,
+        GROUP_CONCAT( blog_sort.sort_name ) AS sorts
+        FROM
+        (((
+                    blog_article_info
+                    LEFT JOIN blog_article_content ON blog_article_info.id = blog_article_content.article_id
+                    )
+                LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id
+                )
+            LEFT JOIN blog_info_sort ON blog_info_sort.article_id = blog_article_info.id
+        )
+        LEFT JOIN blog_sort ON blog_sort.id = blog_info_sort.sort_id
+        WHERE
+        blog_article_info.id = #{id}
+    </select>
+
+    <select id="findBlog" parameterType="int" resultType="blogInfo">
+        SELECT
+            blog_article_info.id,
+            article_title,
+            article_content,
+            image_url
+        FROM
+            ( blog_article_info LEFT JOIN blog_article_content ON blog_article_info.id = blog_article_content.article_id )
+            LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id
+        WHERE
+            blog_article_info.id = #{id}
+    </select>
+
+    <select id="getView" parameterType="int" resultType="int">
+        SELECT article_views FROM blog_article_info WHERE id = #{id}
+    </select>
+
+    <select id="getUserTotalBlogs" resultType="int">
+        SELECT COUNT(*) FROM blog_article_info WHERE blog_article_info.is_delete = 0 and author = #{username}
+    </select>
+
+    <select id="getTotalBlogs" resultType="int">
+        SELECT COUNT(*) FROM blog_article_info WHERE blog_article_info.is_delete = 0
+    </select>
+
+    <select id="getRecentBlogs" resultType="blogInfo">
+        SELECT id,article_title FROM blog_article_info WHERE blog_article_info.is_delete = 0 ORDER BY id DESC LIMIT 6
+    </select>
+
+    <update id="setView">
+        UPDATE blog_article_info SET article_views = #{view} WHERE id = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE ( blog_article_info LEFT JOIN blog_article_content ON blog_article_info.id = blog_article_content.article_id )
+        LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id
+        SET article_title = #{articleTitle},article_content=#{articleContent},image_url=#{imageUrl} WHERE blog_article_info.id = #{id}
+    </update>
+
+    <insert id="saveComment" >
+        insert into blog_article_comment(article_id,comment_name,comment) values (#{articleId},#{commentName},#{comment})
+    </insert>
+
+    <select id="getComments" parameterType="int" resultType="comment">
+        SELECT
+            blog_article_comment.id,
+            comment_name,
+            `comment`,
+            blog_article_comment.create_by,
+            replay,
+            blog_article_replay.create_by AS replayCreateBy
+        FROM
+            blog_article_comment
+            LEFT JOIN blog_article_replay ON blog_article_comment.id = blog_article_replay.comment_id
+        WHERE
+            article_id = #{articleId} AND blog_article_comment.is_delete = 0 ORDER BY blog_article_comment.create_by DESC
+    </select>
+
+    <select id="getTotalComments" resultType="int">
+        SELECT
+          COUNT( * )
+        FROM
+          blog_article_comment
+        WHERE
+          blog_article_comment.is_delete = 0
+    </select>
+
+    <select id="getUserTotalComments" resultType="int">
+         SELECT
+          COUNT( * )
+        FROM
+          blog_article_comment
+        WHERE
+          blog_article_comment.is_delete = 0
+        AND article_id IN ( SELECT id FROM blog_article_info WHERE author =#{username} AND blog_article_info.is_delete = 0 )
+    </select>
+
+    <select id="commentList" resultType="comment">
+             SELECT
+        blog_article_comment.id,
+        article_title,
+        comment_name,
+        `comment`,
+        blog_article_comment.create_by,
+        replay
+        FROM
+        ( blog_article_comment LEFT JOIN blog_article_replay ON blog_article_comment.id = blog_article_replay.comment_id )
+        LEFT JOIN blog_article_info ON blog_article_info.id = blog_article_comment.article_id
+        WHERE
+        blog_article_comment.is_delete = 0
+        AND blog_article_info.is_delete = 0
+        AND author = #{username}
+        ORDER BY
+        blog_article_comment.create_by DESC
+        LIMIT #{offset},#{limit}
+    </select>
+
+    <insert id="saveReplay">
+        insert into blog_article_replay (comment_id,replay) values (#{id},#{replayComment})
+    </insert>
+
+    <update id="delBlog" parameterType="int">
+        UPDATE blog_article_info SET blog_article_info.is_delete = 1 WHERE blog_article_info.id =#{id}
+    </update>
+
+    <update id="delComment" parameterType="int">
+        UPDATE blog_article_comment SET blog_article_comment.is_delete = 1 WHERE blog_article_comment.id = #{id}
+    </update>
+
+    <select id="searchBlogs" parameterType="string" resultType="blogInfo">
+        SELECT
+            blog_article_info.id,
+            article_title,
+            image_url,
+            blog_article_info.create_by
+        FROM
+            ( blog_article_info LEFT JOIN blog_article_content ON blog_article_info.id = blog_article_content.article_id )
+            LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id
+        WHERE
+            blog_article_info.is_delete = 0
+            AND article_title LIKE CONCAT(
+            CONCAT(
+            '%',#{searchKey}), '%') ORDER BY blog_article_info.create_by DESC
+    </select>
+
+    <select id="searchTitle" parameterType="string" resultType="blogInfo">
+        SELECT article_title FROM blog_article_info WHERE blog_article_info.is_delete = 0
+        AND article_title LIKE CONCAT(CONCAT('%', #{searchKey}), '%')
+    </select>
+
+    <insert id="addSort" parameterType="string">
+        insert into blog_sort(sort_name) values (#{sortName})
+    </insert>
+
+    <select id="sorts" resultType="sort">
+       select id,sort_name,sort_number from blog_sort WHERE is_effective = 1 LIMIT #{offset},#{limit}
+    </select>
+
+    <select id="getTotalSorts" resultType="int">
+        select count(sort_name) from blog_sort WHERE  is_effective = 1
+    </select>
+
+    <select id="getAllSorts" resultType="sort">
+        select id,sort_name,sort_number from blog_sort WHERE sort_number>0 and is_effective = 1
+    </select>
+
+    <select id="editorSorts" resultType="sort">
+        select id,sort_name,sort_number from blog_sort WHERE is_effective = 1
+    </select>
+
+    <insert id="sortToArticle" >
+        insert into blog_info_sort(sort_id,article_id) values (#{sortId},#{articleId})
+    </insert>
+
+    <update id="updateSortNum" >
+        update blog_sort
+        <set>
+            <if test="isDelete==1">
+                sort_number = sort_number-1
+            </if>
+            <if test="isDelete==0">
+                sort_number = sort_number+1
+            </if>
+        </set>
+        where id = #{sortId}
+    </update>
+
+    <select id="sortBlog" parameterType="int" resultType="blogInfo">
+           SELECT
+        blog_article_info.id,
+        article_title,
+        image_url,
+        blog_article_info.create_by
+    FROM
+        ( blog_article_info LEFT JOIN blog_info_sort ON blog_article_info.id = blog_info_sort.article_id )
+        LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id
+    WHERE
+        blog_info_sort.article_id = blog_article_info.id
+        AND blog_article_info.is_delete = 0
+        AND blog_info_sort.sort_id = #{sortId} ORDER BY blog_article_info.create_by DESC
+    </select>
+
+    <update id="delSort" parameterType="int">
+        update blog_sort set is_effective = 0 where id = #{id}
+    </update>
+
+    <select id="findAchiveByYear" resultType="string">
+        SELECT DATE_FORMAT(blog_article_info.create_by,'%Y') as year FROM blog_article_info GROUP BY year ORDER BY year DESC
+    </select>
+
+    <select id="findYearByNum" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM blog_article_info WHERE DATE_FORMAT(blog_article_info.create_by,'%Y') = #{year} AND blog_article_info.is_delete = 0
+    </select>
+
+    <select id="findByYear" parameterType="string" resultType="blogInfo">
+         SELECT blog_article_info.id,blog_article_info.article_title,blog_article_info.create_by  FROM blog_article_info WHERE blog_article_info.is_delete = 0 and DATE_FORMAT(blog_article_info.create_by,'%Y') = #{year}
+    </select>
+
+    <insert id="writeHistoricalViews">
+        INSERT INTO blog_historicalviews(views) VALUES (#{currentViews})
+    </insert>
+
+    <!--查询最近六天的历史访问量 -->
+    <select id="getHistoricalViews" resultType="HistoricalViews">
+        select create_by ,views from blog_historicalviews where create_by >=DATE_SUB(CURDATE(),INTERVAL 6 DAY) ORDER BY create_by
+    </select>
+
+    <select id="articleIdToSortId" parameterType="int" resultType="int">
+         select sort_id FROM blog_info_sort WHERE article_id = #{articleId}
+    </select>
+
+    <select id="getLikeStatus" resultType="userLike">
+        SELECT * FROM blog_user_like WHERE blog_user_like.user_name= #{username} AND blog_user_like.article_id= #{articleId}
+    </select>
+</mapper>

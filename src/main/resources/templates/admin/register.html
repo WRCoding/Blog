@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/header::header-fragment"></head>
+<body class="hold-transition login-page">
+<!-- icheck bootstrap -->
+<link rel="stylesheet" th:href="@{/admin/dist/css/icheck-bootstrap.css}" >
+<div class="login-box">
+  <div class="login-logo">
+      <h1>L-Blog | 注册</h1>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+        <p class="login-box-msg"></p>
+        <input type="text" class="form-control mb-3" placeholder="昵称" id="username">
+        <input type="email" class="form-control mb-3" placeholder="邮箱" id="email">
+        <input type="password" class="form-control mb-3" placeholder="密码" id="password">
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-4">
+                <button type="button" class="btn btn-primary btn-block" id="registerBtn">注册</button>
+            </div>
+        </div>
+        <div class="social-auth-links text-center mb-3">
+            <p>- - -</p>
+            <a href="/login" >
+                <span>登录</span>
+            </a>
+        </div>
+   </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin/dist/js/bootstrap.bundle.min.js}" ></script>
+<script th:src="@{/admin/dist/js/sweetalert.min.js}"></script>
+<script th:src="@{/admin/dist/js/register.js}" ></script>
+</body>
+</html>

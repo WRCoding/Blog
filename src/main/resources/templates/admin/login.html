@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/header::header-fragment"></head>
+<body class="hold-transition login-page">
+<!-- icheck bootstrap -->
+<link rel="stylesheet" th:href="@{/admin/dist/css/icheck-bootstrap.css}" >
+<div class="login-box">
+  <div class="login-logo">
+    <h1>L-Blog | 登录</h1>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg"></p>
+
+      <form action="/login" method="post">
+          <div style="text-align: center" th:if="${session.errorMsg} != null">
+              <span style="color: red" th:text="${session.errorMsg}"></span>
+          </div>
+          <span class="fa fa-user form-control-feedback"></span>
+        <input type="text" class="form-control mb-3" placeholder="用户名" name="username" autofocus>
+				<span class="fa fa-lock form-control-feedback"></span>				
+        <input type="password" class="form-control  mb-3" placeholder="密码" name="password">
+        <div class="row">
+            <div class="col-8">
+                <a href="/register" style="text-align: center">注册</a>
+            </div>
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary btn-block">登录</button>
+            </div>
+        </div>
+          <div class="social-auth-links text-center mb-3">
+              <p>- - -</p>
+              <a href="/" >
+                  <span>主页</span>
+              </a>
+          </div>
+      </form>
+   </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin/dist/js/bootstrap.bundle.min.js}" ></script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<link rel="stylesheet" th:href="@{http://cdn.clouddeep.cn/amazeui/1.0.1/css/amazeui.min.css}"/>
+<link rel="stylesheet" th:href="@{/blog/dist/css/common.css}"/>
+
+<th:block th:if="${success} != null">
+    <div class="am-alert am-alert-success" data-am-alert id="success">
+        <p>激活成功，点击跳转登录页面...</p>
+    </div>
+</th:block>
+<th:block th:if="${failure} != null">
+    <input type="hidden"  th:value="${username}" id="username">
+    <input type="hidden"  th:value="${email}" id="email">
+    <div class="am-alert am-alert-danger" data-am-alert id="failure">
+        <p>激活码失效，请点击重新激活</p>
+    </div>
+</th:block>
+
+<!-- jQuery -->
+<script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+<script th:src="@{/blog/dist/js/zepto.min.js}"></script>
+<script th:src="@{/blog/dist/js/amazeui.min.js}"></script>
+<script>
+    $("#success").click(function () {
+        location.href = '/login';
+    })
+    $("#failure").click(function () {
+        var username = $('#username').val();
+        var email = $("#email").val();
+        var data = {'username':username,'email':email};
+        console.log(data);
+        $.ajax({
+            method: 'POST',
+            url: '/activate',
+            data:data
+        })
+    })
+</script>
+</body>
+</html>

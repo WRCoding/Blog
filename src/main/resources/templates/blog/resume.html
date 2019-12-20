@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>L-Blog 文章</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="alternate icon" type="image/png" th:href="@{/blog/dist/img/blog.png}" >
+  <link rel="stylesheet" th:href="@{/blog/dist/css/amazeui.min.css}"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/admin/dist/css/all.css}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" th:href="@{/admin/dist/css/ionicons.min.css}" >
+  <link rel="stylesheet" th:href="@{/admin/dist/css/sweetalert.css}">
+  <link rel="stylesheet" th:href="@{/blog/dist/css/common.css}"/>
+</head>
+<body>
+<div th:replace="blog/head_nav::blog-head-nav('resume')"></div>
+<header class="am-g my-head">
+  <div class="col-sm-12 am-article">
+    <h1 class="am-article-title" ><b>关于林北</b></h1>
+    <h3></h3>
+  </div>
+</header>
+
+<div class="am-g am-g-fixed am-animation-fade">
+  <div class="col-md-9 col-md-push-2">
+    <div class="am-g">
+      &nbsp;
+      &nbsp;
+      <div class="col-sm-11 col-sm-centered">
+        <div class="am-cf am-article">
+            <img src="https://lpepsi.oss-cn-shenzhen.aliyuncs.com/0_1.jpg">
+        </div>
+        <hr class="am-article-divider"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<div th:replace="blog/blog_footer::blog_footer"></div>
+<script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+<script th:src="@{/blog/dist/js/amazeui.min.js}"></script>
+<script th:src="@{/admin/dist/js/sweetalert.min.js}"></script>
+<script th:src="@{/blog/dist/js/comment.js}"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>L-Blog 文章</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="alternate icon" type="image/png" th:href="@{/blog/dist/img/blog.png}" >
+  <link rel="stylesheet" th:href="@{http://cdn.clouddeep.cn/amazeui/1.0.1/css/amazeui.min.css}"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/admin/dist/css/all.css}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" th:href="@{/admin/dist/css/ionicons.min.css}" >
+  <link rel="stylesheet" th:href="@{/admin/dist/css/sweetalert.css}">
+  <link rel="stylesheet" th:href="@{/blog/dist/css/prism.css}">
+
+  <style>
+    @media only screen and (min-width: 641px) {
+      .am-offcanvas {
+        display: block;
+        position: static;
+        background: none;
+      }
+
+      .am-offcanvas-bar {
+        position: static;
+        width: auto;
+        background: none;
+        -webkit-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+      }
+      .am-offcanvas-bar:after {
+        content: none;
+      }
+
+    }
+    .m-fixed{
+        position: fixed;
+        z-index: 10;
+    }
+    .m-right-bottom{
+        bottom: 0;
+        right: 0;
+      padding: 1em;
+    }
+    #qrcode {
+      width:50%;
+      height:50%;
+      margin:0 auto;
+    }
+    @media only screen and (max-width: 640px) {
+      .am-offcanvas-bar .am-nav>li>a {
+        color:#ccc;
+        border-radius: 0;
+        border-top: 1px solid rgba(0,0,0,.3);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.05)
+      }
+
+      .am-offcanvas-bar .am-nav>li>a:hover {
+        background: #404040;
+        color: #fff
+      }
+
+      .am-offcanvas-bar .am-nav>li.am-nav-header {
+        color: #777;
+        background: #404040;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+        text-shadow: 0 1px 0 rgba(0,0,0,.5);
+        border-top: 1px solid rgba(0,0,0,.3);
+        font-weight: 400;
+        font-size: 75%
+      }
+
+      .am-offcanvas-bar .am-nav>li.am-active>a {
+        background: #1a1a1a;
+        color: #fff;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,.3)
+      }
+
+      .am-offcanvas-bar .am-nav>li+li {
+        margin-top: 0;
+      }
+    }
+
+    .my-head {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .my-button {
+      position: fixed;
+      top: 0;
+      right: 0;
+      border-radius: 0;
+    }
+    .my-sidebar {
+      padding-right: 0;
+      border-right: 1px solid #eeeeee;
+    }
+
+    .my-footer {
+      border-top: 1px solid #eeeeee;
+      padding: 10px 0;
+      margin-top: 10px;
+      text-align: center;
+    }
+    textarea{
+      resize: none;
+    }
+    .Date:hover{
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+<div th:replace="blog/head_nav::blog-head-nav('show')"></div>
+<div class="am-g my-head" >
+    <div class="col-sm-12 am-article">
+      <h1 class="am-article-title"><b th:utext="${blogInfo.articleTitle}"></b></h1>
+      <h3><i class="far fa-calendar-alt"></i>&nbsp;&nbsp;<span th:utext="${#dates.format(blogInfo.createBy, 'yyyy-MM-dd')}" th:onclick="archive([[${#dates.format(blogInfo.createBy, 'yyyy')}]])" class="Date"></span>&nbsp;&nbsp;<i class="fas fa-user"></i>&nbsp;<span th:utext="${blogInfo.author}"> </span>&nbsp;&nbsp; 浏览量&nbsp; <span th:text="${blogInfo.articleViews}"></span>&nbsp;<th:block th:if="${blogInfo.sortNames != null}">
+        <th:block th:each="sortName:${blogInfo.sortNames}">
+          <span class="am-badge am-badge-primary" th:text="${sortName}"></span>
+        </th:block>
+      </th:block>&nbsp;</h3>
+      <h3></h3>
+    </div>
+</div>
+  <!--博客主体-->
+<div id="waypoint" class="am-g am-g-fixed am-animation-fade ">
+  <div class="col-md-9 col-md-push-2">
+    <div class="am-g">
+      <div align="center">
+        <img th:src="${blogInfo.imageUrl}" class="am-img-bdrs"  >
+      </div>
+      &nbsp;
+      &nbsp;
+      <div class="col-sm-11 col-sm-centered">
+        <div class="am-cf am-article">
+             <th:block th:utext="${blogInfo.articleContent}"></th:block>
+        </div>
+        <hr class="am-article-divider"/>
+        <h1 id="comment-contain">评论区</h1>
+        <form onsubmit="return false">
+          <input type="hidden" id="articleId" th:value="${blogInfo.id}">
+          <th:block sec:authorize="isAuthenticated()">
+            <div class="am-input-group">
+              <span style="display: none" sec:authentication="name" id="username"></span>
+              <span class="am-input-group-label"><i class="far fa-comment-alt"></i></span>
+              <textarea class="am-form-field" placeholder="评论" name="comment" id="comment"></textarea>
+            </div>
+          </th:block>
+          <!--<div class="am-input-group">-->
+            <!--<span class="am-input-group-label"><i class="fa fa-user"></i></span>-->
+            <!--<input type="text" class="am-form-field" placeholder="昵称" name="commentName" id="commentName">-->
+          <!--</div>-->
+          &nbsp;
+          <th:block sec:authorize="!isAuthenticated()">
+            <div class="am-input-group">
+              <span class="am-input-group-label"><i class="far fa-comment-alt"></i></span>
+              <textarea class="am-form-field" placeholder="请登录后再评论" name="comment" id="comment"></textarea>
+            </div>
+          </th:block>
+          &nbsp;
+          <div class="am-input-group" sec:authorize="isAuthenticated()">
+            <button class="am-btn am-btn-primary " id="confirmButton">提交</button>
+          </div>
+        </form>
+        <hr class="am-article-divider"/>
+        <ul class="am-comments-list am-comments-list-flip" id="commentul">
+        </ul>
+        <div>
+          <ul class="am-pagination blog-pagination" id="pagination">
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--侧边导航-->
+    <div id="tool-bar" class="am-btn-group-stacked m-fixed m-right-bottom" style="display: none">
+        <button id="likeBtn" class="am-btn am-btn-default am-btn-xs"><i class="far fa-thumbs-up" aria-hidden="true" id="like"></i>
+          <span id="likeNum" th:text="${blogInfo.likeNum}">10</span>
+        </button>
+      <button id="toBottomBtn" class="am-btn am-btn-default am-btn-xs">评论</button>
+      <button  class="am-btn am-btn-xs am-btn-success" data-am-modal="{target: '#WeChat-modal'}" id="WeChatBtn"><span class="am-icon-weixin"></span></button>
+      <button id="toTopBtn"  class="am-btn am-btn-xs am-btn-default"><i class="fas fa-chevron-up"></i></button>
+    </div>
+
+</div>
+  <!--微信二维码-->
+  <div class="am-modal am-modal-no-btn" tabindex="-1" id="WeChat-modal">
+    <div class="am-modal-dialog" id="my-popup">
+      <div class="am-modal-hd">扫一扫手机浏览
+      <span data-am-modal-close class="am-close">&times;</span>
+      </div>
+      <div class="am-modal-bd">
+        <div id="qrcode" ></div>
+      </div>
+    </div>
+  </div>
+  <!--modal-->
+  <div class="am-modal am-modal-confirm" tabindex="-1" id="doc-modal-1">
+    <div class="am-modal-dialog">
+      <div class="am-modal-hd">回复评论
+        <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+      </div>
+      <div class="am-modal-bd">
+        <form class="am-form am-form-horizontal">
+          <input type="hidden" id="pageNum">
+          <input type="hidden" id="commentId">
+          <div class="am-form-group">
+            <textarea class="col-sm-10"  id="replay" ></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="am-modal-footer">
+        <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+        <span class="am-modal-btn" data-am-modal-confirm id="replayConfirm">确定</span>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+<div th:replace="blog/blog_footer::blog_footer"></div>
+  <script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+  <script th:src="@{/blog/dist/js/zepto.min.js}"></script>
+  <script th:src="@{http://cdn.clouddeep.cn/amazeui/1.0.1/js/amazeui.min.js}"></script>
+<script th:src="@{/admin/dist/js/sweetalert.min.js}"></script>
+<script th:src="@{/blog/dist/js/comment.js}"></script>
+<script th:src="@{/blog/dist/js/prism.js}"></script>
+<script th:src="@{/blog/dist/js/qrcode.min.js}"></script>
+<script th:src="@{/blog/dist/js/jquery.scrollTo.min.js}"></script>
+<script th:src="@{/blog/dist/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{/blog/dist/js/show.js}"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/header::header-fragment"></head>
+<body class="hold-transition sidebar-mini">
+<link rel="stylesheet" th:href="@{/admin/dist/plugins/editormd/css/editormd.css}">
+<link rel="stylesheet" th:href="@{/admin/dist/css/select2.min.css}">
+<div class="wrapper">
+    <!-- 引入页面头header-nav -->
+    <div th:replace="admin/header::header-nav"></div>
+    <!-- 引入工具栏sidebar-fragment -->
+    <div th:replace="admin/siderbar::sidebar-fragment('editors')"></div>
+    <!-- Content Wrapper. Contains page content -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">       
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="content">
+        <div class="container-fluid">
+          <div class="card card-outline card-primary">
+            <div class="card-header">
+              <h3 class="card-title" th:text="${blog != null}?'编辑文章':'发布文章'">发布文章</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+							<form method="post " onsubmit="return false;" id="editorForm">
+								<div class="form-group" style="display: flex;">
+                                    <input type="hidden" id="blogId" name="blogId" th:value="${blog != null and blog.id != null}?${blog.id}: 0">
+									<input type="text" class="form-control col-sm-6"  placeholder="标题"  name="articleTitle" id="articleTitle" th:value="${blog != null and blog.articleTitle != null}?${blog.articleTitle}: ''"/>
+											&nbsp;&nbsp;
+                                   <th:block th:if="${blog == null}">
+                                       <select multiple="multiple"  class="form-control col-sm-6 select2" id="sortSelect" th:placeholder="选择分类">
+                                           <th:block th:each="sort: ${sorts}">
+                                               <option th:value="${sort.id}" th:text="${sort.sortName}"></option>
+                                           </th:block>
+                                       </select>
+                                   </th:block>
+								</div>
+								<!--<div class="form-group" style="display: flex;">-->
+									<!--<input type="text" class="form-control col-sm-6"  placeholder="功能后期开放" disabled/>-->
+											<!--&nbsp;&nbsp;-->
+									<!--<input type="text" class="form-control col-sm-6"  placeholder="功能后期开放" disabled/>-->
+								<!--</div>-->
+                                <div class="form-group" id="blog-editormd">
+                                        <textarea class="editormd-markdown-textarea"  id="content" name="text" th:text="${blog != null and blog.articleContent != null}?${blog.articleContent}: ''"></textarea>
+                                </div>
+								<div class="form-group">
+						<!-- 按钮 -->
+						&nbsp;<button class="btn btn-info float-right" style="margin-left: 5px;"
+                                      id="confirmButton" th:text="${blog == null}? '保存文章':'保存修改'">保存文章
+									</button>&nbsp;
+						&nbsp;<button class="btn btn-secondary float-right" style="margin-left: 5px;"
+													id="cancelButton" onclick="location.href='/admin/manager'">返回文章列表
+									</button>&nbsp;
+								</div>
+							</form>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-->
+      </div>
+      <!-- ./row -->
+    </section>
+    <!-- /.content -->
+        <!--modal-->
+    <div class="content">
+        <div class="modal fade" id="articleModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">保存文章</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="imageForm" method="post" enctype="multipart/form-data" >
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">文章标题</label>
+                                <div class="col-sm-9">
+                                    <p class="form-control-static" id="showTitle">SpringBoot搭建文章</p>
+                                </div>
+                            </div>
+                            <th:block th:switch="${null == blog}">
+                                <div th:case="true" class="form-group" style="display: none" id="imageDiv">
+                                    <label class="col-sm-3 control-label">图片URL</label>
+                                    <div class="col-sm-9">
+                                        <p class="form-control-static" id="imageUrl"></p>
+                                    </div>
+                                </div>
+
+                                <div th:case="false" class="form-group" style="display: block" id="imageDiv">
+                                    <label class="col-sm-3 control-label">图片URL</label>
+                                    <div class="col-sm-9">
+                                        <p class="form-control-static" id="imageUrl" th:text="${blog.imageUrl}"></p>
+                                    </div>
+                                </div>
+                            </th:block>
+                            <th:block th:switch="${null == blog}">
+                                <div th:case="true" class="form-group" id="imageUpload">
+                                    <label for="imageFile">上传题图</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="imageFile" placeholder="图片地址" name="imageFile">
+                                            <label class="custom-file-label" for="imageFile" id="URL">图片地址</label>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="uploadImage">上传</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div th:case="false" class="form-group" id="imageUpload" style="display: none">
+                                    <label for="imageFile">上传题图</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="imageFile" placeholder="图片地址" name="imageFile">
+                                            <label class="custom-file-label" for="imageFile" id="URL">图片地址</label>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="uploadImage">上传</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </form>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <!--data-dismiss="modal"-->
+                        <button type="button" class="btn btn-info"  id="changeImage">更换题图</button>
+                        <button type="button" class="btn btn-primary" id="saveButton" th:text="${blog == null}? '保存':'更新'">保存</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </div>
+  </div>
+    <!-- /.content-wrapper -->
+    <!-- 引入页脚footer-fragment -->
+    <div th:replace="admin/footer::footer-fragment"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin/dist/js/bootstrap.bundle.min.js}" ></script>
+<!-- FastClick -->
+<script th:src="@{/admin/dist/js/fastclick.js}" ></script>
+<!-- AdminLTE App -->
+<script th:src="@{/admin/dist/js/adminlte.min.js}"></script>
+<script th:src="@{/admin/dist/plugins/editormd/editormd.min.js}"></script>
+<script th:src="@{/admin/dist/js/sweetalert.min.js}"></script>
+<script th:src="@{/admin/dist/plugins/select2/select2.min.js}"></script>
+<script th:src="@{/admin/dist/js/editors.js}"></script>
+</body>
+</html>
