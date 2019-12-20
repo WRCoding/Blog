@@ -1,6 +1,7 @@
 package com.lb.lblog.controller.blog;
 
 import com.lb.lblog.pojo.BlogInfo;
+import com.lb.lblog.service.ArchiveService;
 import com.lb.lblog.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,17 +16,17 @@ import java.util.Map;
 public class ArchiveController {
 
     @Autowired
-    private BlogService blogService;
+    private ArchiveService archiveService;
 
     @PostMapping("/archive")
     @ResponseBody
     public Map<String,Integer> archiveDetail(){
-        return blogService.findAchiveByYear();
+        return archiveService.findAchiveByYear();
     }
 
     @PostMapping("/findByYear")
     @ResponseBody
     public List<BlogInfo> findByYear (@RequestParam("year") String year){
-        return blogService.findByYear(year);
+        return archiveService.findByYear(year);
     }
 }

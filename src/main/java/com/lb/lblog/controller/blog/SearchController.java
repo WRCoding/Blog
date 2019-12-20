@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.lb.lblog.dto.Result;
 import com.lb.lblog.pojo.BlogInfo;
 import com.lb.lblog.service.BlogService;
+import com.lb.lblog.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,16 @@ import java.util.List;
 public class SearchController {
 
     @Autowired
+    private SearchService searchService;
+
+    @Autowired
     private BlogService blogService;
 
 
     @PostMapping("/searchTitle")
     @ResponseBody
     public Result searchTitle(@RequestParam("searchKey")String searchKey){
-        return blogService.searchTitle(searchKey);
+        return searchService.searchTitle(searchKey);
     }
 
 
@@ -36,7 +40,7 @@ public class SearchController {
     @GetMapping("/searchPage/{pageNum}")
     public String searchPage(HttpServletRequest request, @PathVariable("pageNum") Integer pageNum){
         String searchKey = (String) request.getSession().getAttribute("searchKey");
-        List<BlogInfo> blogList = blogService.searshBlogs(pageNum,searchKey);
+        List<BlogInfo> blogList = searchService.searshBlogs(pageNum,searchKey);
         PageInfo pageInfo = new PageInfo(blogList);
         request.setAttribute("pageInfo", pageInfo);
         request.setAttribute("titleBlogs", blogService.getRecentBlogs());

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lb.lblog.dao.SearchMapper">
+
+    <select id="searchBlogs" parameterType="string" resultType="blogInfo">
+        SELECT
+            blog_article_info.id,
+            article_title,
+            image_url,
+            blog_article_info.create_by
+        FROM
+            ( blog_article_info LEFT JOIN blog_article_content ON blog_article_info.id = blog_article_content.article_id )
+            LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id
+        WHERE
+            blog_article_info.is_delete = 0
+            AND article_title LIKE CONCAT(
+            CONCAT(
+            '%',#{searchKey}), '%') ORDER BY blog_article_info.create_by DESC
+    </select>
+
+    <select id="searchTitle" parameterType="string" resultType="blogInfo">
+        SELECT article_title FROM blog_article_info WHERE blog_article_info.is_delete = 0
+        AND article_title LIKE CONCAT(CONCAT('%', #{searchKey}), '%')
+    </select>
+
+</mapper>

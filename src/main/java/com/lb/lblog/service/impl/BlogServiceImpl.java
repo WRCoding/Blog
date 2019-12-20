@@ -411,25 +411,6 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<BlogInfo> searshBlogs(Integer pageNum,String searchKey) {
-        PageHelper.startPage(pageNum,3 );
-        return blogMapper.searchBlogs(searchKey);
-    }
-
-    @Override
-    public Result searchTitle(String searchKey) {
-        List<BlogInfo> blogInfos = blogMapper.searchTitle(searchKey);
-        Result searchResult = new Result();
-        if(blogInfos.size() != 0){
-            searchResult.setCode(200);
-        }else{
-            searchResult.setCode(202);
-            searchResult.setMessage("未找到相似的文章");
-        }
-        return searchResult;
-    }
-
-    @Override
     public Result addSort(String sortName) {
         int index = blogMapper.addSort(sortName);
         Result result = new Result();
@@ -469,20 +450,5 @@ public class BlogServiceImpl implements BlogService {
             SortResult.setMessage("删除失败");
         }
         return SortResult;
-    }
-
-    @Override
-    public Map<String,Integer> findAchiveByYear() {
-        List<String> years = blogMapper.findAchiveByYear();
-        HashMap<String,Integer> map = new HashMap<>();
-        for (String year : years) {
-            map.put(year,blogMapper.findYearByNum(year));
-        }
-        return map;
-    }
-
-    @Override
-    public List<BlogInfo> findByYear(String year) {
-        return blogMapper.findByYear(year);
     }
 }

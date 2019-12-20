@@ -60,10 +60,6 @@ public interface BlogService {
 
     Result delComment(Integer id);
 
-    List<BlogInfo> searshBlogs(Integer pageNum,String searchKey);
-
-    Result searchTitle(String searchKey);
-
     Result addSort(String sortName);
 
     TableList sorts(Integer limit, Integer offset);
@@ -71,10 +67,6 @@ public interface BlogService {
     List<Sort> editorSorts();
 
     Result delSort(Integer id);
-
-    Map<String,Integer> findAchiveByYear();
-
-    List<BlogInfo> findByYear(String year);
 
     Map<String,Integer> getHistoricalViews();
 
