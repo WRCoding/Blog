@@ -5,6 +5,7 @@ import com.lb.lblog.dto.Result;
 import com.lb.lblog.pojo.BlogInfo;
 import com.lb.lblog.pojo.Comment;
 import com.lb.lblog.pojo.Sort;
+import com.lb.lblog.service.ArchiveService;
 import com.lb.lblog.service.BlogService;
 import com.lb.lblog.service.LikeService;
 import org.slf4j.Logger;
@@ -28,6 +29,9 @@ public class BlogController {
 
     @Autowired
     private BlogService blogService;
+
+    @Autowired
+    private ArchiveService archiveService;
 
     @RequestMapping("/")
     public String index(HttpServletRequest request){
@@ -55,7 +59,7 @@ public class BlogController {
         request.setAttribute("pageInfo", pageInfo);
         request.setAttribute("titleBlogs", blogService.getRecentBlogs());
         request.setAttribute("viewsBlogs", blogService.getMostViewsBlogs());
-        request.setAttribute("archive",blogService.findAchiveByYear());
+        request.setAttribute("archive",archiveService.findAchiveByYear());
         return "blog/index";
     }
 
