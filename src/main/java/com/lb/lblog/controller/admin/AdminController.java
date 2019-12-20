@@ -5,6 +5,7 @@ import com.lb.lblog.dto.Result;
 import com.lb.lblog.pojo.BlogInfo;
 import com.lb.lblog.service.AdminService;
 import com.lb.lblog.service.BlogService;
+import com.lb.lblog.service.SortService;
 import com.lb.lblog.utils.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +30,9 @@ public class AdminController {
 
     @Autowired
     private BlogService blogService;
+
+    @Autowired
+    private SortService sortService;
 
     @Autowired
     private AdminService adminService;
@@ -100,7 +104,7 @@ public class AdminController {
     public String edit(@PathVariable("id") Integer id, HttpServletRequest request){
         BlogInfo blogInfo = blogService.editBlog(id);
         request.setAttribute("blog",blogInfo );
-        request.setAttribute("sorts",blogService.getAllSorts());
+        request.setAttribute("sorts",sortService.getAllSorts());
         return "admin/editors";
     }
 

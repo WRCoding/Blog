@@ -255,12 +255,6 @@ public class BlogServiceImpl implements BlogService {
 
 
     @Override
-    public List<BlogInfo> sortToBlog(Integer sortId) {
-        return blogMapper.sortBlog(sortId);
-    }
-
-
-    @Override
     public BlogInfo findBlog(Integer id) {
         return blogMapper.findBlog(id);
     }
@@ -458,24 +452,9 @@ public class BlogServiceImpl implements BlogService {
         return tableList;
     }
 
-    /**
-     * 获得所有分类以及每个分类的数量
-     * @return
-     */
-    @Override
-    public List<Sort> getAllSorts() {
-        return blogMapper.getAllSorts();
-    }
-
     @Override
     public List<Sort> editorSorts() {
         return blogMapper.editorSorts();
-    }
-
-    @Override
-    public List<BlogInfo> sortBlog(Integer sortId,Integer pageNum) {
-        PageHelper.startPage(pageNum,3 );
-        return blogMapper.sortBlog(sortId);
     }
 
     @Override

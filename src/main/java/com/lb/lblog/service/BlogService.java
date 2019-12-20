@@ -68,19 +68,13 @@ public interface BlogService {
 
     TableList sorts(Integer limit, Integer offset);
 
-    List<Sort> getAllSorts();
-
     List<Sort> editorSorts();
-
-    List<BlogInfo> sortBlog(Integer sortId,Integer pageNum);
 
     Result delSort(Integer id);
 
     Map<String,Integer> findAchiveByYear();
 
     List<BlogInfo> findByYear(String year);
-
-    List<BlogInfo> sortToBlog(Integer sortId);
 
     Map<String,Integer> getHistoricalViews();
 

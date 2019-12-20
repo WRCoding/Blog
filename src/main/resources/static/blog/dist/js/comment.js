@@ -8,7 +8,6 @@ function isLegal(obj){
     var reg = /^[\u4e00-\u9fa5\w]+$/;
     return reg.test(obj);
 }
-
 //发布评论
 $('#confirmButton').click(function () {
     var commentName;
