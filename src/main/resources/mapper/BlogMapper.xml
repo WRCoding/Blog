@@ -34,19 +34,6 @@
         select count(*) from blog_article_info WHERE blog_article_info.is_delete = 0 and author = #{username}
     </select>
 
-    <!--<select id="editBlog" parameterType="int" resultType="blogInfo">-->
-        <!--SELECT-->
-            <!--blog_article_info.id,-->
-            <!--article_title,-->
-            <!--image_url,-->
-            <!--article_content-->
-        <!--FROM-->
-            <!--( blog_article_info LEFT JOIN blog_article_content ON blog_article_info.id = blog_article_content.article_id )-->
-            <!--LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id-->
-        <!--WHERE-->
-            <!--blog_article_info.id = #{id}-->
-	<!--</select>-->
-
     <select id="blogs" resultType="blogInfo">
         SELECT
             blog_article_info.id,
@@ -209,95 +196,6 @@
         UPDATE blog_article_comment SET blog_article_comment.is_delete = 1 WHERE blog_article_comment.id = #{id}
     </update>
 
-    <select id="searchBlogs" parameterType="string" resultType="blogInfo">
-        SELECT
-            blog_article_info.id,
-            article_title,
-            image_url,
-            blog_article_info.create_by
-        FROM
-            ( blog_article_info LEFT JOIN blog_article_content ON blog_article_info.id = blog_article_content.article_id )
-            LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id
-        WHERE
-            blog_article_info.is_delete = 0
-            AND article_title LIKE CONCAT(
-            CONCAT(
-            '%',#{searchKey}), '%') ORDER BY blog_article_info.create_by DESC
-    </select>
-
-    <select id="searchTitle" parameterType="string" resultType="blogInfo">
-        SELECT article_title FROM blog_article_info WHERE blog_article_info.is_delete = 0
-        AND article_title LIKE CONCAT(CONCAT('%', #{searchKey}), '%')
-    </select>
-
-    <insert id="addSort" parameterType="string">
-        insert into blog_sort(sort_name) values (#{sortName})
-    </insert>
-
-    <select id="sorts" resultType="sort">
-       select id,sort_name,sort_number from blog_sort WHERE is_effective = 1 LIMIT #{offset},#{limit}
-    </select>
-
-    <select id="getTotalSorts" resultType="int">
-        select count(sort_name) from blog_sort WHERE  is_effective = 1
-    </select>
-
-    <select id="getAllSorts" resultType="sort">
-        select id,sort_name,sort_number from blog_sort WHERE sort_number>0 and is_effective = 1
-    </select>
-
-    <select id="editorSorts" resultType="sort">
-        select id,sort_name,sort_number from blog_sort WHERE is_effective = 1
-    </select>
-
-    <insert id="sortToArticle" >
-        insert into blog_info_sort(sort_id,article_id) values (#{sortId},#{articleId})
-    </insert>
-
-    <update id="updateSortNum" >
-        update blog_sort
-        <set>
-            <if test="isDelete==1">
-                sort_number = sort_number-1
-            </if>
-            <if test="isDelete==0">
-                sort_number = sort_number+1
-            </if>
-        </set>
-        where id = #{sortId}
-    </update>
-
-    <select id="sortBlog" parameterType="int" resultType="blogInfo">
-           SELECT
-        blog_article_info.id,
-        article_title,
-        image_url,
-        blog_article_info.create_by
-    FROM
-        ( blog_article_info LEFT JOIN blog_info_sort ON blog_article_info.id = blog_info_sort.article_id )
-        LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id
-    WHERE
-        blog_info_sort.article_id = blog_article_info.id
-        AND blog_article_info.is_delete = 0
-        AND blog_info_sort.sort_id = #{sortId} ORDER BY blog_article_info.create_by DESC
-    </select>
-
-    <update id="delSort" parameterType="int">
-        update blog_sort set is_effective = 0 where id = #{id}
-    </update>
-
-    <select id="findAchiveByYear" resultType="string">
-        SELECT DATE_FORMAT(blog_article_info.create_by,'%Y') as year FROM blog_article_info GROUP BY year ORDER BY year DESC
-    </select>
-
-    <select id="findYearByNum" parameterType="string" resultType="int">
-        SELECT COUNT(*) FROM blog_article_info WHERE DATE_FORMAT(blog_article_info.create_by,'%Y') = #{year} AND blog_article_info.is_delete = 0
-    </select>
-
-    <select id="findByYear" parameterType="string" resultType="blogInfo">
-         SELECT blog_article_info.id,blog_article_info.article_title,blog_article_info.create_by  FROM blog_article_info WHERE blog_article_info.is_delete = 0 and DATE_FORMAT(blog_article_info.create_by,'%Y') = #{year}
-    </select>
-
     <insert id="writeHistoricalViews">
         INSERT INTO blog_historicalviews(views) VALUES (#{currentViews})
     </insert>
@@ -307,11 +205,11 @@
         select create_by ,views from blog_historicalviews where create_by >=DATE_SUB(CURDATE(),INTERVAL 6 DAY) ORDER BY create_by
     </select>
 
-    <select id="articleIdToSortId" parameterType="int" resultType="int">
-         select sort_id FROM blog_info_sort WHERE article_id = #{articleId}
-    </select>
-
     <select id="getLikeStatus" resultType="userLike">
         SELECT * FROM blog_user_like WHERE blog_user_like.user_name= #{username} AND blog_user_like.article_id= #{articleId}
     </select>
+
+    <update id="writeUserViews2DB">
+        UPDATE blog_user_view SET view = #{view}  WHERE nick_name = #{username}
+    </update>
 </mapper>

@@ -1,12 +1,33 @@
 //检查邮箱
 function checkEmail(){
+    var flag = false;
     var email = $("#email").val();
     //定义正则
     var reg_email = /^\w+@\w+\.\w+$/
     //判断
-    var flag = reg_email.test(email);
+    flag = reg_email.test(email);
     if (flag){
-        $("#email").attr('class','form-control mb-3 is-valid');
+        $.ajax({
+            method: 'POST',
+            url: '/isEmail',
+            data: {'email':email},
+            success: function (data) {
+                if (data > 0){
+                    flag = false;
+                    swal("邮箱已注册",{
+                        icon: 'warning'
+                    })
+                    $("#username").attr('class','form-control mb-3');
+                    $("#password").attr('class','form-control mb-3');
+                    $("#email").attr('class','form-control mb-3');
+                    $('#email').val('');
+                    $("#password").val('');
+                } else{
+                    flag = true;
+                    $("#email").attr('class','form-control mb-3 is-valid');
+                }
+            }
+        });
     } else {
         $("#email").attr('class','form-control mb-3 is-invalid');
     }

@@ -115,8 +115,15 @@ function pagination (pageNum) {
     })
 }
 function replayModal(obj,id) {
-    $('#commentId').val(id);
-    $('#replay').attr('placeholder','回复：'+obj);
+    if ($('#username').length > 0){
+        $('#commentId').val(id);
+        $('#replay').attr('placeholder','回复：'+obj);
+    }else {
+        swal("请先登录在回复",{
+            icon: "warning",
+        });
+        return;
+    }
 }
 
 $('#replayConfirm').click(function () {

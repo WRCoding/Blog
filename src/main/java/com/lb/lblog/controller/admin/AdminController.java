@@ -54,7 +54,7 @@ public class AdminController {
     }
     @RequestMapping("/editors")
     public String editors(HttpServletRequest request){
-        request.setAttribute("sorts",blogService.editorSorts() );
+        request.setAttribute("sorts",sortService.editorSorts() );
         return "admin/editors";
     }
     @RequestMapping("/historicalViews")
@@ -149,20 +149,20 @@ public class AdminController {
     @PostMapping("/addSort")
     @ResponseBody
     public Result addSort(@RequestParam("sortName") String sortName){
-        return blogService.addSort(sortName);
+        return sortService.addSort(sortName);
     }
 
     @GetMapping("/sorts")
     @ResponseBody
     public TableList sorts(@RequestParam("limit") Integer limit, @RequestParam("offset") Integer offset){
-        return blogService.sorts(limit, offset);
+        return sortService.sorts(limit, offset);
     }
 
     @PostMapping("/delSort")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Result delSort(@RequestParam("id") Integer id){
-        return blogService.delSort(id);
+        return sortService.delSort(id);
     }
 
     @PostMapping("/getHistoricalViews")

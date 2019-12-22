@@ -56,39 +56,11 @@ public interface BlogMapper {
 
     int delComment(Integer id);
 
-    List<BlogInfo> searchBlogs(String searchKey);
-
-    List<BlogInfo> searchTitle(String searchKey);
-
-    int addSort(String sortName);
-
-    List<Sort> sorts(@Param("limit") Integer limit,@Param("offset") Integer offset);
-
-    int getTotalSorts();
-
-    List<Sort> getAllSorts();
-
-    List<Sort> editorSorts();
-
-    void sortToArticle(@Param("sortId")Integer sortId,@Param("articleId")Integer articleId);
-
-    int updateSortNum(@Param("sortId") Integer sortId,@Param("isDelete") Integer isDelete);
-
-    List<BlogInfo> sortBlog(Integer sortId);
-
-    int delSort(Integer id);
-
-    List<String> findAchiveByYear();
-
-    int findYearByNum(String year);
-
-    List<BlogInfo> findByYear(String year);
-
     void writeHistoricalViews(Integer currentViews);
 
     List<HistoricalViews> getHistoricalViews();
 
-    List<Integer> articleIdToSortId(Integer articleId);
-
     UserLike getLikeStatus(@Param("username")String username, @Param("articleId")Integer articleId);
+
+    void writeUserViews2DB(@Param("username")String username,@Param("view") Integer view);
 }

@@ -15,7 +15,7 @@ public interface SearchService {
     Result searchTitle(String searchKey);
 
     /**
-     *
+     *博客搜索分页
      * @param pageNum
      * @param searchKey
      * @return

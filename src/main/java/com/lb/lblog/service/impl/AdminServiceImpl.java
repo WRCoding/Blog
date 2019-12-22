@@ -55,6 +55,7 @@ public class AdminServiceImpl implements AdminService {
         int index = adminMapper.register(userInfo);
         Result result = new Result();
         if (index>0){
+            adminMapper.setUserView(userInfo.getNickName());
             result.setCode(200);
             result.setMessage("注册成功");
         }else{
@@ -77,5 +78,10 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public String getEmailByUserName(String username) {
         return adminMapper.getEmailByUserName(username);
+    }
+
+    @Override
+    public Integer isEmail(String email) {
+        return adminMapper.isEmail(email);
     }
 }

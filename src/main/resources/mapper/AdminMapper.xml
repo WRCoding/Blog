@@ -6,6 +6,9 @@
     <select id="findUserByName" parameterType="string" resultType="userInfo">
       select * from blog_user where email = #{userName}
     </select>
+    <insert id="setUserView" parameterType="string">
+      INSERT INTO blog_user_view(nick_name)VALUES(#{username})
+    </insert>
     <insert id="register" parameterType="userInfo">
         INSERT INTO blog_user ( email, login_password, nick_name, login_role )
 VALUES(#{email},#{loginPassword},#{nickName},#{loginRole})
@@ -18,5 +21,8 @@ VALUES(#{email},#{loginPassword},#{nickName},#{loginRole})
     </update>
     <select id="getEmailByUserName" parameterType="string" resultType="string">
         SELECT email FROM blog_user WHERE nick_name = #{username}
+    </select>
+    <select id="isEmail" parameterType="string" resultType="int">
+        SELECT COUNT(email) FROM blog_user WHERE email = #{email}
     </select>
 </mapper>

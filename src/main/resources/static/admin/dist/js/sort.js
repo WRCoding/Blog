@@ -51,7 +51,7 @@ $(function () {
                 field: 'operate',
                 title: '操作',
                 formatter: function (value, row) {
-                    var e = '<button type="button" class="btn btn-danger" onclick="del(\'' + row.id + '\')"> <i class="fas fa-trash-alt"></i>&nbsp;删除</button>'
+                    var e = '<button type="button" class="btn btn-danger" onclick="del(\'' + row.id + '\')" > <i class="fas fa-trash-alt"></i>&nbsp;删除</button>'
                     return  e ;
                 }
             },

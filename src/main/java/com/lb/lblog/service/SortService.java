@@ -1,6 +1,8 @@
 package com.lb.lblog.service;
 
 
+import com.lb.lblog.dto.Result;
+import com.lb.lblog.dto.TableList;
 import com.lb.lblog.pojo.BlogInfo;
 import com.lb.lblog.pojo.Sort;
 
@@ -28,4 +30,27 @@ public interface SortService {
      * @return
      */
     List<BlogInfo> sortToBlog(Integer sortId);
+
+    /**
+     * 添加分类
+     * @param sortName
+     * @return
+     */
+    Result addSort(String sortName);
+
+    /**
+     * 获得所有分类
+     * @param limit
+     * @param offset
+     * @return
+     */
+    TableList sorts(Integer limit, Integer offset);
+
+    List<Sort> editorSorts();
+    /**
+     * 删除分类
+     * @param id
+     * @return
+     */
+    Result delSort(Integer id);
 }

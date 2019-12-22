@@ -60,18 +60,11 @@ public interface BlogService {
 
     Result delComment(Integer id);
 
-    Result addSort(String sortName);
-
-    TableList sorts(Integer limit, Integer offset);
-
-    List<Sort> editorSorts();
-
-    Result delSort(Integer id);
-
     Map<String,Integer> getHistoricalViews();
 
     void writeHistoricalViews();
 
     void setView();
 
+    void writeUserViews2DB();
 }

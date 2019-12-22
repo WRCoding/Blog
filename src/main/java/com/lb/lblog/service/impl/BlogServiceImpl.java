@@ -2,6 +2,7 @@ package com.lb.lblog.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.lb.lblog.dao.BlogMapper;
+import com.lb.lblog.dao.SortMapper;
 import com.lb.lblog.dto.TableList;
 import com.lb.lblog.dto.Result;
 import com.lb.lblog.pojo.*;
@@ -14,8 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +40,9 @@ public class BlogServiceImpl implements BlogService {
 
     @Autowired
     private BlogMapper blogMapper;
+
+    @Autowired
+    private SortMapper sortMapper;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -62,8 +69,8 @@ public class BlogServiceImpl implements BlogService {
         blogInfo.setArticleId(blogInfo.getId());
         String[] sortIds = blogInfo.getSorts().split(",");
         for (String sortId : sortIds) {
-            blogMapper.sortToArticle(Integer.parseInt(sortId),articleId );
-            blogMapper.updateSortNum(Integer.parseInt(sortId),0);
+            sortMapper.sortToArticle(Integer.parseInt(sortId),articleId );
+            sortMapper.updateSortNum(Integer.parseInt(sortId),0);
         }
         int num = blogMapper.saveBlogContent(blogInfo);
         int count = blogMapper.saveImageUrl(blogInfo);
@@ -170,6 +177,15 @@ public class BlogServiceImpl implements BlogService {
         String username = UserUtil.getUserName();
         Integer views = (Integer) hashOperations.get(RedisKeyUtils.USER_VIEWS, username);
         return views == null?0:views;
+    }
+
+    @Override
+    public void writeUserViews2DB(){
+        Map<String,Integer> userViews = hashOperations.entries(RedisKeyUtils.USER_VIEWS);
+        userViews.forEach((username,view) ->{
+            blogMapper.writeUserViews2DB(username,view );
+            logger.error("username: "+username+" ,view: "+view);
+        });
     }
 
     /**
@@ -381,9 +397,9 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Result delBlog(Integer id) {
         int index = blogMapper.delBlog(id);
-        List<Integer> sortIds = blogMapper.articleIdToSortId(id);
+        List<Integer> sortIds =sortMapper .articleIdToSortId(id);
         for (Integer sortId : sortIds) {
-            blogMapper.updateSortNum(sortId,1);
+            sortMapper.updateSortNum(sortId,1);
         }
         Result BlogResult = new Result();
         if(index > 0){
@@ -408,47 +424,5 @@ public class BlogServiceImpl implements BlogService {
             CommentResult.setMessage("删除失败");
         }
         return CommentResult;
-    }
-
-    @Override
-    public Result addSort(String sortName) {
-        int index = blogMapper.addSort(sortName);
-        Result result = new Result();
-        if(index > 0){
-            result.setCode(200);
-            result.setMessage("添加成功");
-        }else {
-            result.setCode(500);
-            result.setMessage("添加失败");
-        }
-        return result;
-    }
-
-    @Override
-    public TableList sorts(Integer limit, Integer offset) {
-        List<Sort> sorts = blogMapper.sorts(limit, offset);
-        TableList tableList = new TableList();
-        tableList.setTotal(blogMapper.getTotalSorts());
-        tableList.setRows(sorts);
-        return tableList;
-    }
-
-    @Override
-    public List<Sort> editorSorts() {
-        return blogMapper.editorSorts();
-    }
-
-    @Override
-    public Result delSort(Integer id) {
-        int index = blogMapper.delSort(id);
-        Result SortResult = new Result();
-        if(index > 0){
-            SortResult.setCode(200);
-            SortResult.setMessage("删除成功");
-        }else {
-            SortResult.setCode(500);
-            SortResult.setMessage("删除失败");
-        }
-        return SortResult;
     }
 }

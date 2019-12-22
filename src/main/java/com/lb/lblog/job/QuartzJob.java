@@ -17,6 +17,7 @@ public class QuartzJob extends QuartzJobBean {
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         blogService.writeHistoricalViews();
+        blogService.writeUserViews2DB();
         blogService.setView();
         likeService.saveLiked2DB();
         likeService.saveLikedCount2DB();

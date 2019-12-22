@@ -10,8 +10,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface AdminMapper {
 
-
     UserInfo findUserByName(String userName);
+
+    void setUserView(String username);
 
     int register(UserInfo userInfo);
 
@@ -20,4 +21,6 @@ public interface AdminMapper {
     int updateStatus(String username);
 
     String getEmailByUserName(String username);
+
+    int isEmail(String email);
 }

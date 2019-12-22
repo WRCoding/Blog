@@ -81,4 +81,10 @@ public class LoginController {
             return modelAndView;
         }
     }
+
+    @PostMapping("/isEmail")
+    @ResponseBody
+    public Integer isEmail(@RequestParam("email") String email){
+        return adminService.isEmail(email);
+    }
 }

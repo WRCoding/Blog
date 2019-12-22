@@ -14,12 +14,11 @@
             <li sec:authorize="anonymous" ><a href="/register">注册</a></li>
             <li sec:authorize="anonymous" ><a href="/login">登录</a></li>
             <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')" ><a href="/logout">当前用户：<span sec:authentication="name"></span></a></li>
-            <li th:class="${path} == 'archive'?'am-active':' '" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')"><a th:href="@{/admin/index}" target="_blank" style="color: red">控制台</a></li>
+            <li sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')"><a th:href="@{/admin/index}" target="_blank" style="color: red">控制台</a></li>
             <li th:class="${path} == 'archive'?'am-active':' '"><a th:href="@{/archive}" target="_blank">归档</a></li>
-            <li th:class="${path} == 'allsorts'?'am-active':' '"><a th:href="@{/all_sort}" target="_blank">分类</a></li>
+            <li th:class="${path} == 'sorts'?'am-active':' '"><a th:href="@{/all_sort}" target="_blank">分类</a></li>
             <li><a th:href="@{https://github.com/WRCoding}" target="_blank">GitHub</a></li>
             <li><a th:href="@{https://blog.csdn.net/qq_40866897}" target="_blank">CSDN</a></li>
-            <!--<li><a th:href="@{/resume}" target="_blank">关于我</a></li>-->
         </ul>
     </div>
 </header>
