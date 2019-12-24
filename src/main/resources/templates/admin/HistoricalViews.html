@@ -19,6 +19,52 @@
       </div><!-- /.container-fluid -->
     </section>
 
+        <div class="container-fluid">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <!--<i class="fas fa-edit"></i>-->
+                        网站数据
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <!--<h4>Custom Content Below</h4>-->
+                    <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="ViewNum" data-toggle="pill" href="javascript:void(0)" role="tab" aria-controls="custom-content-below-home" aria-selected="true">浏览量</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="CommentNum" data-toggle="pill" href="javascript:void(0)" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">评论数</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="BlogNum" data-toggle="pill" href="javascript:void(0)" role="tab" aria-controls="custom-content-below-messages" aria-selected="false">博客数</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="LikeNum" data-toggle="pill" href="javascript:void(0)" role="tab" aria-controls="custom-content-below-settings" aria-selected="false">点赞数</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="custom-content-below-tabContent">
+                        <div class="tab-pane fade show active" id="custom-content-below-home" role="tabpanel" aria-labelledby="custom-content-below-home-tab">
+                            <canvas id="viewChart" width="400px" height="400px"></canvas>
+                        </div>
+                        <!--<div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">-->
+                            <!--&lt;!&ndash;<canvas id="viewChart" width="100%" height="100%"></canvas>&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--<div class="tab-pane fade" id="custom-content-below-messages" role="tabpanel" aria-labelledby="custom-content-below-messages-tab">-->
+                            <!--&lt;!&ndash;<canvas id="2" width="100%" height="100%"></canvas>&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--<div class="tab-pane fade" id="custom-content-below-settings" role="tabpanel" aria-labelledby="custom-content-below-settings-tab">-->
+                            <!--&lt;!&ndash;<canvas id="3" width="100%" height="100%"></canvas>&ndash;&gt;-->
+                        <!--</div>-->
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+
+
+
+
     <!-- Main content -->
     <section class="content">
       <div class="content">
@@ -29,7 +75,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <canvas id="viewChart" width="100%" height="100%"></canvas>
+                <!--<canvas id="viewChart" width="100%" height="100%"></canvas>-->
             </div>
           </div>
         </div>

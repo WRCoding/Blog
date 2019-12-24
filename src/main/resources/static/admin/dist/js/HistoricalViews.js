@@ -1,6 +1,11 @@
 var timeArray = new Array(6);
 var dataArray = new Array(6);
 var index = 0;
+var i = 1;
+$('.nav-link').click(function () {
+   console.log($(this).attr('id'));
+   i++;
+})
 $.ajax({
     method: 'post',
     url: '/admin/getHistoricalViews',
