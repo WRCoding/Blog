@@ -43,14 +43,14 @@ public class ViewAop {
      * 切入点表达式
      */
     @Pointcut("execution(* com.lb.lblog.controller.blog.BlogController.show(..))")
-    public void Pointcut(){ }
+    public void pointCut(){ }
 
     /**
      * 前置通知，点击一篇博客，浏览量加一
      * @param point
      * @throws NoSuchMethodException
      */
-    @Before("Pointcut()")
+    @Before("pointCut()")
     public void setView(JoinPoint point) throws NoSuchMethodException{
         Object[] args = point.getArgs();
         Integer id = (Integer) args[1];
@@ -61,7 +61,7 @@ public class ViewAop {
             zSetOperations.incrementScore("views", id, 1);
         }
     }
-    @After("Pointcut()")
+    @After("pointCut()")
     public void setUserViews(){
         HashOperations hashOperations = redisTemplate.opsForHash();
         String username = (String) request.getSession().getAttribute("username");

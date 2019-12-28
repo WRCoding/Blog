@@ -24,12 +24,12 @@ import java.util.UUID;
 @Component
 public class AliyunOssUtil {
     private static  final Logger logger = LoggerFactory.getLogger(AliyunOssUtil.class);
-    private static String File_URL;
     private static String bucketName = AliyunOssConfigConstant.BUCKE_NAME;
     private static String endPoint = AliyunOssConfigConstant.END_POINT;
     private static String accessKeyId = AliyunOssConfigConstant.AccessKey_ID;
     private static String accessKeySecret = AliyunOssConfigConstant.AccessKey_Secret;
     private static String fileHost = AliyunOssConfigConstant.FILE_HOST;
+    private String file_url;
 
     public  String upLoad(File file){
         boolean isImage = true;
@@ -59,9 +59,9 @@ public class AliyunOssUtil {
             String fileUrl = fileHost + "/" + (dateStr + "/" + UUID.randomUUID().toString().replace("-", "")+"-"+file.getName());
             //如果是图片
             if(isImage){
-                File_URL = "https://" + bucketName + "." + endPoint + "/" + fileUrl;
+                file_url = "https://" + bucketName + "." + endPoint + "/" + fileUrl;
             }else {
-                File_URL = "非图片，不可预览。文件路径为：" + fileUrl;
+                file_url = "非图片，不可预览。文件路径为：" + fileUrl;
             }
             //上传文件
             PutObjectResult result = ossClient.putObject(new PutObjectRequest(bucketName, fileUrl, file));
@@ -77,6 +77,6 @@ public class AliyunOssUtil {
                 ossClient.shutdown();
             }
         }
-        return File_URL;
+        return file_url;
     }
 }

@@ -1,19 +1,16 @@
 package com.lb.lblog.controller;
 
-import com.lb.lblog.dao.AdminMapper;
 import com.lb.lblog.dto.Result;
 import com.lb.lblog.pojo.UserInfo;
 import com.lb.lblog.service.AdminService;
 import com.lb.lblog.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 

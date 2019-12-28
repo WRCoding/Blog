@@ -47,14 +47,14 @@ $(function () {
                 title: '文章数量',
                 align: 'center'
             },
-            {
-                field: 'operate',
-                title: '操作',
-                formatter: function (value, row) {
-                    var e = '<button type="button" class="btn btn-danger" onclick="del(\'' + row.id + '\')" > <i class="fas fa-trash-alt"></i>&nbsp;删除</button>'
-                    return  e ;
-                }
-            },
+            // {
+            //     field: 'operate',
+            //     title: '操作',
+            //     formatter: function (value, row) {
+            //         var e = '<button type="button" class="btn btn-danger" onclick="del(\'' + row.id + '\')" > <i class="fas fa-trash-alt"></i>&nbsp;删除</button>'
+            //         return  e ;
+            //     }
+            // },
         ]
 
     })
