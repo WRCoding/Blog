@@ -33,26 +33,26 @@ public class SortController {
         return sortService.getAllSorts();
     }
 
-    @GetMapping("/sort/{sortId}")
-    public String sort(HttpServletRequest request, @PathVariable("sortId")String sortId){
-        request.getSession().setAttribute("sortId", sortId);
-        return this.sortPage(request,0);
-    }
+//    @GetMapping("/sort/{sortId}")
+//    public String sort(HttpServletRequest request, @PathVariable("sortId")String sortId){
+//        request.getSession().setAttribute("sortId", sortId);
+//        return this.sortPage(request,0);
+//    }
 
-    @GetMapping("/sortPage/{pageNum}")
-    public String sortPage(HttpServletRequest request, @PathVariable("pageNum") Integer pageNum){
-        Integer sortId = Integer.parseInt((String) request.getSession().getAttribute("sortId"));
-        List<BlogInfo> blogList = sortService.sortBlog(sortId,pageNum);
-        PageInfo pageInfo = new PageInfo(blogList);
-        request.setAttribute("pageInfo", pageInfo);
-        request.setAttribute("titleBlogs", blogService.getRecentBlogs());
-        request.setAttribute("viewsBlogs", blogService.getMostViewsBlogs());
-        return "blog/sort";
-    }
+//    @GetMapping("/sortPage/{pageNum}")
+//    public String sortPage(HttpServletRequest request, @PathVariable("pageNum") Integer pageNum){
+//        Integer sortId = Integer.parseInt((String) request.getSession().getAttribute("sortId"));
+//        List<BlogInfo> blogList = sortService.sortBlog(sortId,pageNum);
+//        PageInfo pageInfo = new PageInfo(blogList);
+//        request.setAttribute("pageInfo", pageInfo);
+//        request.setAttribute("titleBlogs", blogService.getRecentBlogs());
+//        request.setAttribute("viewsBlogs", blogService.getMostViewsBlogs());
+//        return "blog/sort";
+//    }
 
     @PostMapping("/sortToBlog")
     @ResponseBody
-    public List<BlogInfo> sortToBlog(Integer sortId){
-        return sortService.sortToBlog(sortId);
+    public List<BlogInfo> sortToBlog(String sortName){
+        return sortService.sortToBlog(sortName);
     }
 }

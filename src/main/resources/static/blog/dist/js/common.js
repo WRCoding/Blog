@@ -22,22 +22,15 @@ $(function () {
                 if (index >= 9){
                     return false;
                 }
-                if (index %3 == 1){
-                    a = '<a class="am-btn am-btn-primary am-round" href="/sort/'+element.id+'" target="_blank" style="margin-top: 5px">'+element.sortName+' <span class="am-badge">'+element.sortNumber+'</span></a>&nbsp;'
-                    $('#sortPanel').append(a);
-                }
-                if (index %3 == 2){
-                    a = '<a class="am-btn am-btn-secondary am-round" href="/sort/'+element.id+'" target="_blank" style="margin-top: 5px">'+element.sortName+' <span class="am-badge">'+element.sortNumber+'</span></a>&nbsp;'
-                    $('#sortPanel').append(a);
-                }
-                if (index %3 == 0){
-                    a = '<a class="am-btn am-btn-success am-round" href="/sort/'+element.id+'" target="_blank" style="margin-top: 5px">'+element.sortName+' <span class="am-badge">'+element.sortNumber+'</span></a>&nbsp;'
-                    $('#sortPanel').append(a);
-                }
+                a = '<a class="am-btn am-btn-default" href="/all_sort?name='+element.sortName+'" target="_blank" style="margin-top: 5px;margin-right: 5px;font-size: 18px">'+element.sortName+' <span style="color: rgb(255, 255, 255)" class="am-badge am-badge-primary">'+element.sortNumber+'</span></a>&nbsp;'
+                $('#sortPanel').append(a);
             })
         }
     })
 });
 function archive(obj) {
     location.href = '/archive?year='+obj;
+}
+function clickSortName(sortName) {
+    location.href = '/all_sort?name='+sortName;
 }

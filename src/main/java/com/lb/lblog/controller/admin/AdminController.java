@@ -90,7 +90,7 @@ public class AdminController {
         blogInfo.setArticleContent(blogContent);
         blogInfo.setSorts(sortIds);
         blogInfo.setImageUrl(imageUrl);
-        Result result = blogService.saveBolg(blogInfo);
+        Result result = blogService.saveBlog(blogInfo);
         return result;
     }
 
@@ -168,8 +168,8 @@ public class AdminController {
     @PostMapping("/getHistoricalViews")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Map<String,Integer> getHistoricalViews(){
-        return blogService.getHistoricalViews();
+    public Map<String,Integer> getHistoricalViews(String key){
+        return blogService.getHistoricalViews(key);
     }
 
     @PostMapping("/isRegistered")

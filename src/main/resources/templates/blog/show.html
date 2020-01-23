@@ -10,6 +10,7 @@
   <meta http-equiv="Cache-Control" content="no-siteapp" />
   <link rel="alternate icon" type="image/png" th:href="@{/blog/dist/img/blog.png}" >
   <link rel="stylesheet" th:href="@{http://cdn.clouddeep.cn/amazeui/1.0.1/css/amazeui.min.css}"/>
+  <link rel="stylesheet" th:href="@{/blog/dist/css/bootstrap.min.css}"/>
   <!-- Font Awesome -->
   <link rel="stylesheet" th:href="@{/admin/dist/css/all.css}">
   <!-- Ionicons -->
@@ -182,7 +183,7 @@
 
   <!--侧边导航-->
     <div id="tool-bar" class="am-btn-group-stacked m-fixed m-right-bottom" style="display: none">
-        <button id="likeBtn" class="am-btn am-btn-default am-btn-xs"><i class="far fa-thumbs-up" aria-hidden="true" id="like"></i>
+        <button id="likeBtn" class="am-btn am-btn-default am-btn-xs" ><i class="far fa-thumbs-up" aria-hidden="true" id="like"></i>
           <span id="likeNum" th:text="${blogInfo.likeNum}">10</span>
         </button>
       <button id="toBottomBtn" class="am-btn am-btn-default am-btn-xs">评论</button>
@@ -202,7 +203,7 @@
       </div>
     </div>
   </div>
-  <!--modal-->
+  <!--回复框-->
   <div class="am-modal am-modal-confirm" tabindex="-1" id="doc-modal-1">
     <div class="am-modal-dialog">
       <div class="am-modal-hd">回复评论
@@ -223,12 +224,35 @@
       </div>
     </div>
   </div>
-
+  <!--登录框-->
+  <div class="am-modal am-modal-confirm" tabindex="-1" id="loginModal">
+    <div class="am-modal-dialog">
+      <div class="am-modal-hd">登录
+        <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+      </div>
+      <div class="am-modal-bd">
+          <form class="am-form" method="post" action="/login" id="loginForm">
+            <div class="am-form-group">
+              <input type="text"   placeholder="邮箱" autofocus id="email" name="username">
+            </div>
+            <div class="am-form-group">
+              <input type="password" placeholder="密码" id="password" name="password">
+            </div>
+          </form>
+      </div>
+      <div class="am-modal-footer">
+        <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+        <span class="am-modal-btn" data-am-modal-confirm id="login">登录</span>
+      </div>
+    </div>
+  </div>
   <hr>
 <div th:replace="blog/blog_footer::blog_footer"></div>
-  <script th:src="@{/admin/dist/js/jquery.min.js}"></script>
-  <script th:src="@{/blog/dist/js/zepto.min.js}"></script>
-  <script th:src="@{http://cdn.clouddeep.cn/amazeui/1.0.1/js/amazeui.min.js}"></script>
+<script th:src="@{/admin/dist/js/jquery.min.js}"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper-utils.js"></script>
+<script th:src="@{/blog/dist/js/bootstrap.min.js}"></script>
+<script th:src="@{/blog/dist/js/zepto.min.js}"></script>
+<script th:src="@{/blog/dist/js/amazeui.min.js}"></script>
 <script th:src="@{/admin/dist/js/sweetalert.min.js}"></script>
 <script th:src="@{/blog/dist/js/comment.js}"></script>
 <script th:src="@{/blog/dist/js/prism.js}"></script>

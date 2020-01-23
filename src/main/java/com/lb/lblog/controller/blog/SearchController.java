@@ -40,7 +40,7 @@ public class SearchController {
     @GetMapping("/searchPage/{pageNum}")
     public String searchPage(HttpServletRequest request, @PathVariable("pageNum") Integer pageNum){
         String searchKey = (String) request.getSession().getAttribute("searchKey");
-        List<BlogInfo> blogList = searchService.searshBlogs(pageNum,searchKey);
+        List<BlogInfo> blogList = searchService.searchBlog(pageNum,searchKey);
         PageInfo pageInfo = new PageInfo(blogList);
         request.setAttribute("pageInfo", pageInfo);
         request.setAttribute("titleBlogs", blogService.getRecentBlogs());

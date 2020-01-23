@@ -28,7 +28,7 @@ public interface BlogMapper {
 
     int getView(Integer id);
 
-    void setView(@Param("id") Integer id,@Param("view") Integer view);
+    void setView(@Param("id") Object id, @Param("view") Integer view);
 
     BlogInfo findBlog(Integer id);
 
@@ -56,9 +56,9 @@ public interface BlogMapper {
 
     int delComment(Integer id);
 
-    void writeHistoricalViews(Integer currentViews);
+    void writeHistoricalViews(@Param("currentViews")Integer currentViews,@Param("tableName") String tableName);
 
-    List<HistoricalViews> getHistoricalViews();
+    List<HistoricalViews> getHistoricalViews(@Param("tableName") String tableName);
 
     UserLike getLikeStatus(@Param("username")String username, @Param("articleId")Integer articleId);
 

@@ -6,18 +6,27 @@
 
     <select id="searchBlogs" parameterType="string" resultType="blogInfo">
         SELECT
-            blog_article_info.id,
-            article_title,
-            image_url,
-            blog_article_info.create_by
+        blog_article_info.id,
+        author,
+        article_title,
+        GROUP_CONCAT( blog_sort.sort_name ) AS sorts,
+        image_url,
+        blog_article_info.create_by
         FROM
-            ( blog_article_info LEFT JOIN blog_article_content ON blog_article_info.id = blog_article_content.article_id )
-            LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id
+        (
+            ( ( blog_article_info LEFT JOIN blog_article_content ON blog_article_info.id = blog_article_content.article_id ) LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id )
+            LEFT JOIN blog_info_sort ON blog_article_info.id = blog_info_sort.article_id
+        )
+        LEFT JOIN blog_sort ON blog_info_sort.sort_id = blog_sort.id
         WHERE
-            blog_article_info.is_delete = 0
-            AND article_title LIKE CONCAT(
-            CONCAT(
-            '%',#{searchKey}), '%') ORDER BY blog_article_info.create_by DESC
+        blog_article_info.is_delete = 0
+                AND article_title LIKE CONCAT(
+                CONCAT(
+                '%',#{searchKey}), '%')
+              GROUP BY
+        blog_article_info.id
+        ORDER BY
+        blog_article_info.create_by DESC
     </select>
 
     <select id="searchTitle" parameterType="string" resultType="blogInfo">

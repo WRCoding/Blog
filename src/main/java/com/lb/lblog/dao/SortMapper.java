@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface SortMapper {
 
-    List<BlogInfo> sortBlog(Integer sortId);
+    List<BlogInfo> sortBlog(String sortName);
 
     List<Sort> getAllSorts();
 

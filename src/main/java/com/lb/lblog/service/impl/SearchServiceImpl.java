@@ -9,10 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("SearchService")
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class SearchServiceImpl implements SearchService {
 
     @Autowired
@@ -32,8 +33,19 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<BlogInfo> searshBlogs(Integer pageNum, String searchKey) {
+    public List<BlogInfo> searchBlog(Integer pageNum, String searchKey) {
         PageHelper.startPage(pageNum,3 );
-        return searchMapper.searchBlogs(searchKey);
+        List<BlogInfo> searchBlogs = searchMapper.searchBlogs(searchKey);
+        for (BlogInfo blog : searchBlogs) {
+            if(blog.getSorts() != null){
+                String[] names = blog.getSorts().split(",");
+                List<String> sortNames = new ArrayList<>();
+                for (String name : names) {
+                    sortNames.add(name);
+                }
+                blog.setSortNames(sortNames);
+            }
+        }
+        return searchBlogs;
     }
 }

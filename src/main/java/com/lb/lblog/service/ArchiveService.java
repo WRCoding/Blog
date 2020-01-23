@@ -5,6 +5,9 @@ import com.lb.lblog.pojo.BlogInfo;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author 林北
+ */
 public interface ArchiveService {
 
     /**

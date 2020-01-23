@@ -156,13 +156,12 @@
       var year = location.href;
       var index = year.lastIndexOf('=');
       year = year.substr(index+1);
-      console.log(index)
       if (index == -1){
           archive(2019)
       } else{
           archive(year)
       }
-  })
+  });
     $.ajax({
         type: 'POST',
         url: "/archive",

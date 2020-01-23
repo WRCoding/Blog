@@ -149,23 +149,30 @@
 <script th:src="@{/admin/dist/js/sweetalert.min.js}"></script>
 <script>
     $(function () {
-      allSorts(1,'SpringMVC');
-        $.ajax({
-            type: 'POST',
-            url: '/allSorts',
-            success: function (data) {
-                console.log(data);
-                $.each(data, function (index,element) {
-                  var li = '<li><a class="am-btn" onclick=allSorts("'+element.id+'","'+element.sortName+'") >'+element.sortName+'<span class="am-badge am-badge-success" style="margin-left: 20px;">'+element.sortNumber+'</span></a></li>';
-                  $('#sortUl').append(li);
-                })
-            }
-        })
+        var url = location.href;
+        var index = url.lastIndexOf('=');
+        var sortName = decodeURI(url.substr(index+1));
+        if (index == -1){
+            allSorts('SpringMVC')
+        } else{
+            allSorts(sortName)
+        }
     });
-    function allSorts(sortId,sortName) {
+    $.ajax({
+        type: 'POST',
+        url: '/allSorts',
+        success: function (data) {
+            console.log(data);
+            $.each(data, function (index,element) {
+              var li = '<li><a class="am-btn" onclick=allSorts("'+element.sortName+'") >'+element.sortName+'<span class="am-badge am-badge-success" style="margin-left: 20px;">'+element.sortNumber+'</span></a></li>';
+              $('#sortUl').append(li);
+            })
+        }
+    });
+    function allSorts(sortName) {
       $('#titleUl').find('li').remove();
       $('#sortName').html(sortName);
-      var data = {"sortId":sortId};
+      var data = {"sortName":sortName};
       $.ajax({
           method: 'POST',
           url:'/sortToBlog',

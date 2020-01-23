@@ -16,10 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +28,7 @@ import java.util.*;
  * @create 2019-07-17 20:38
  */
 @Service("blogService")
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class BlogServiceImpl implements BlogService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -46,9 +43,11 @@ public class BlogServiceImpl implements BlogService {
 
     @Autowired
     private RedisTemplate redisTemplate;
-    private ZSetOperations zSetOperations ;
+
+    private ZSetOperations<String,Object> zSetOperations;
     private HashOperations hashOperations ;
 
+    private static final String[] DATA_KEY = {RedisKeyUtils.HISTORICAL_VIEWS,RedisKeyUtils.BLOG_NUM,RedisKeyUtils.LIKE_NUM};
     /**
      * 只执行一次，在构造函数之后执行
      */
@@ -60,7 +59,7 @@ public class BlogServiceImpl implements BlogService {
 
 
     @Override
-    public Result saveBolg(BlogInfo blogInfo) {
+    public Result saveBlog(BlogInfo blogInfo) {
         String username = UserUtil.getUserName();
         blogInfo.setAuthor(username);
         Result result = new Result();
@@ -77,7 +76,7 @@ public class BlogServiceImpl implements BlogService {
         if(index > 0 && num > 0&& count > 0){
             result.setCode(200);
             result.setMessage("发布成功");
-            hashOperations.put(String.valueOf(blogInfo.getId()),blogInfo.getArticleTitle() ,blogMapper.showBlog(blogInfo.getId()));
+            hashOperations.put(RedisKeyUtils.BLOG,String.valueOf(blogInfo.getId()),blogMapper.showBlog(blogInfo.getId()));
             return result;
         }else {
             result.setCode(500);
@@ -92,9 +91,7 @@ public class BlogServiceImpl implements BlogService {
         TableList blogList = new TableList();
         int total = blogMapper.totalCount(username);
         List<BlogInfo> blogInfos = blogMapper.blogList(limit, offset,username);
-        for (BlogInfo blogInfo : blogInfos) {
-            blogInfo.setCreateByStr(DateUtils.date2String(blogInfo.getCreateBy(),"yyyy-MM-dd HH:mm" ));
-        }
+        blogInfos.stream().forEach((e)->e.setCreateByStr(DateUtils.date2String(e.getCreateBy(),"yyyy-MM-dd HH:mm" )));
         blogList.setTotal(total);
         blogList.setRows(blogInfos);
         return blogList;
@@ -102,12 +99,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public BlogInfo editBlog(Integer id) {
-        BlogInfo blogInfo = new BlogInfo();
-        Map<String,BlogInfo> entries = hashOperations.entries(String.valueOf(id));
-        for (Map.Entry<String, BlogInfo> entry : entries.entrySet()) {
-            blogInfo = entry.getValue();
-        }
-        return blogInfo;
+        return (BlogInfo) hashOperations.get(RedisKeyUtils.BLOG,String.valueOf(id));
     }
 
     @Override
@@ -129,28 +121,19 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public BlogInfo showBlog(Integer id) {
-        Map<String,BlogInfo> map = hashOperations.entries(String.valueOf(id));
-        BlogInfo blogInfo = null;
+        BlogInfo blogInfo = (BlogInfo) hashOperations.get(RedisKeyUtils.BLOG, String.valueOf(id));
         //获取访问量
-        Double views = zSetOperations.score("views", id);
+        Double views = zSetOperations.score(RedisKeyUtils.VIEW, String.valueOf(id));
         double number = views;
-        if(map.size() > 0){
-            for(Map.Entry<String,BlogInfo> entry : map.entrySet()){
-                blogInfo = entry.getValue();
-                //设置访问量
-                blogInfo.setArticleViews((int)number);
-                //添加博客类型
-                if(blogInfo.getSorts() != null){
-                    String[] names = blogInfo.getSorts().split(",");
-                    List<String> sortNames = new ArrayList<>();
-                    for (String name : names) {
-                        sortNames.add(name);
-                    }
-                    blogInfo.setSortNames(sortNames);
-                }
-                blogInfo.setArticleContent(MarkDownToHtmlUtil.mdToHtml(blogInfo.getArticleContent()));
-            }
+        //设置访问量
+        blogInfo.setArticleViews((int)number);
+        //添加博客类型
+        if(blogInfo.getSorts() != null){
+            String[] names = blogInfo.getSorts().split(",");
+            List<String> sortNames = Arrays.asList(names);
+            blogInfo.setSortNames(sortNames);
         }
+        blogInfo.setArticleContent(MarkDownToHtmlUtil.mdToHtml(blogInfo.getArticleContent()));
         return blogInfo;
     }
 
@@ -161,7 +144,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public int getTotalView() {
-        Set<ZSetOperations.TypedTuple> views = zSetOperations.rangeWithScores("views", 0, -1);
+        Set<ZSetOperations.TypedTuple<Object>> views = zSetOperations.rangeWithScores(RedisKeyUtils.VIEW, 0, -1);
         int totalView = 0;
         for (ZSetOperations.TypedTuple tuple : views) {
             //访问量
@@ -181,52 +164,63 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void writeUserViews2DB(){
-        Map<String,Integer> userViews = hashOperations.entries(RedisKeyUtils.USER_VIEWS);
-        userViews.forEach((username,view) ->{
-            blogMapper.writeUserViews2DB(username,view );
-            logger.error("username: "+username+" ,view: "+view);
-        });
+        Map<String,Integer> map = hashOperations.entries(RedisKeyUtils.USER_VIEWS);
+        map.forEach((username,view) -> blogMapper.writeUserViews2DB(username,view ));
     }
 
-    /**
-     * 定时任务，每日的23:59:59把当日的总访问量写入到MySQL中
-     */
+
     @Override
-    public void setView() {
-        Set<ZSetOperations.TypedTuple<Integer>> views = zSetOperations.rangeWithScores("views", 0, -1);
-        for (ZSetOperations.TypedTuple<Integer> tuple : views) {
-            Integer id = tuple.getValue();
+    public void  setView() {
+        Set<ZSetOperations.TypedTuple<Object>> views = zSetOperations.rangeWithScores(RedisKeyUtils.VIEW, 0, -1);
+        for (ZSetOperations.TypedTuple<Object> tuple : views) {
             //访问量
             double score = tuple.getScore();
             Integer view = (int)score;
-            blogMapper.setView(id,view);
+            blogMapper.setView(tuple.getValue(),view);
         }
     }
 
-    /**
-     * 定时任务，每日的23:59:59把当日的总访问量写入到MySQL中
-     */
+
     @Override
     public void writeHistoricalViews(){
-        Set<ZSetOperations.TypedTuple> views = zSetOperations.rangeWithScores("views", 0, -1);
-        int currentViews = 0;
-        for (ZSetOperations.TypedTuple tuple : views) {
-            //访问量
-            double score = tuple.getScore();
-            Integer view = (int)score;
-            currentViews+=view;
-        }
-        blogMapper.writeHistoricalViews(currentViews);
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            logger.error("[writeHistoricalViews]方法异常");
-        }
-        //删除旧缓存
-        delHistoricalViews("HistoricalViews");
-        //写入新缓存
-        saveHistoricalViews(blogMapper.getHistoricalViews());
+        Arrays.stream(DATA_KEY).forEach((e)->{
+            if (redisTemplate.hasKey(e)){
+                if (RedisKeyUtils.HISTORICAL_VIEWS.equals(e)){
+                    Set<ZSetOperations.TypedTuple<Object>> views = zSetOperations.rangeWithScores(RedisKeyUtils.VIEW, 0, -1);
+                    int currentViews = 0;
+                    for (ZSetOperations.TypedTuple tuple : views) {
+                        //访问量
+                        double score = tuple.getScore();
+                        Long view = (long)score;
+                        currentViews+=view;
+                    }
+                    String tableName = "blog_"+e;
+                    blogMapper.writeHistoricalViews(currentViews,tableName);
+                }
+                if (RedisKeyUtils.BLOG_NUM.equals(e)){
+                    String tableName = "blog_"+e;
+                    long blogNum = hashOperations.size(RedisKeyUtils.BLOG);
+                    blogMapper.writeHistoricalViews((int)blogNum,tableName);
+                }
+                if (RedisKeyUtils.LIKE_NUM.equals(e)){
+                    String tableName = "blog_"+e;
+                    List<Integer> likeList = hashOperations.values(RedisKeyUtils.LIKE_COUNT);
+                    int sum = likeList.stream().mapToInt((s) -> s).sum();
+                    blogMapper.writeHistoricalViews(sum,tableName);
+                }
+            }else {
+                logger.error(e+" :不存在");
+            }
+//            try {
+//                Thread.sleep(2000);
+//            } catch (InterruptedException exc) {
+//                logger.error("[writeHistoricalViews]方法异常："+exc.getMessage());
+//            }
+//            //删除旧缓存
+//            delHistoricalViews(e);
+//            //写入新缓存
+//            saveHistoricalViews(blogMapper.getHistoricalViews(),e);
+        });
     }
 
 
@@ -235,11 +229,11 @@ public class BlogServiceImpl implements BlogService {
      * @param historicalViews
      */
 
-    private void saveHistoricalViews(List<HistoricalViews> historicalViews){
-        if (!redisTemplate.hasKey("HistoricalViews")){
+    private void saveHistoricalViews(List<HistoricalViews> historicalViews,String key){
+        if (!redisTemplate.hasKey(key)){
             for (HistoricalViews historicalView : historicalViews) {
                 String historical = DateUtils.date2String(historicalView.getCreateBy(),"yyyy-MM-dd")+":"+historicalView.getViews();
-                redisTemplate.opsForList().rightPush("HistoricalViews",historical);
+                redisTemplate.opsForList().rightPush(key,historical);
             }
         }
     }
@@ -253,14 +247,15 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Map<String, Integer> getHistoricalViews() {
+    public Map<String, Integer> getHistoricalViews(String key) {
         List<String> historicalViews;
+        String tableName = "blog_"+key;
         //缓存不存在
-        if(redisTemplate.opsForList().size("HistoricalViews") == 0){
+        if(!redisTemplate.hasKey(key)){
             //存入redis
-            saveHistoricalViews(blogMapper.getHistoricalViews());
+            saveHistoricalViews(blogMapper.getHistoricalViews(tableName),key);
         }
-        historicalViews = redisTemplate.opsForList().range("HistoricalViews", 0, -1);
+        historicalViews = redisTemplate.opsForList().range(key, 0, -1);
         Map<String,Integer> historicalViewsMap = new LinkedHashMap<>();
         for (String historicalView : historicalViews) {
             String[] strs = historicalView.split(":");
@@ -282,10 +277,10 @@ public class BlogServiceImpl implements BlogService {
         if(index > 0){
             result.setCode(200);
             result.setMessage("更新成功");
-            if(redisTemplate.hasKey(String.valueOf(blogInfo.getId()))){
-                redisTemplate.delete(String.valueOf(blogInfo.getId()));
+            if(null != hashOperations.get(RedisKeyUtils.BLOG,String.valueOf(blogInfo.getId()))){
+                hashOperations.delete(RedisKeyUtils.BLOG,String.valueOf(blogInfo.getId()));
             }
-            saveCache(blogMapper.blogs());
+            hashOperations.put(RedisKeyUtils.BLOG, String.valueOf(blogInfo.getId()), blogMapper.showBlog(blogInfo.getId()));
         }else {
             result.setCode(500);
             result.setMessage("更新失败");
@@ -312,24 +307,21 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public List<BlogInfo> getMostViewsBlogs() {
         List<BlogInfo> list = new ArrayList<>();
-        if(isFirst){
+        if(!redisTemplate.hasKey(RedisKeyUtils.BLOG)){
             saveCache(blogMapper.blogs());
-            isFirst = false;
         }
-        Set<Integer> ids = zSetOperations.reverseRange("views", 0, 5);
-        for (Integer id : ids) {
-            Map<String,BlogInfo> map = hashOperations.entries(String.valueOf(id));
-            for (Map.Entry<String,BlogInfo> entry : map.entrySet()) {
-                list.add(entry.getValue());
-            }
+        Set<Object> ids = zSetOperations.reverseRange(RedisKeyUtils.VIEW, 0, 5);
+        for (Object id : ids) {
+            BlogInfo blogInfo = (BlogInfo)hashOperations.get(RedisKeyUtils.BLOG, String.valueOf(id));
+            list.add(blogInfo);
         }
         return list;
     }
     private void saveCache(List<BlogInfo> blogInfos){
         for (BlogInfo blogInfo : blogInfos) {
-            if(!redisTemplate.hasKey(String.valueOf(blogInfo.getId()))){
-                hashOperations.put(String.valueOf(blogInfo.getId()),blogInfo.getArticleTitle() ,blogMapper.showBlog(blogInfo.getId()) );
-                zSetOperations.add("views", blogInfo.getId(), blogInfo.getArticleViews());
+            if(null == hashOperations.get(RedisKeyUtils.BLOG,String.valueOf(blogInfo.getId()))){
+                hashOperations.put(RedisKeyUtils.BLOG,String.valueOf(blogInfo.getId()) ,blogMapper.showBlog(blogInfo.getId()) );
+                zSetOperations.add(RedisKeyUtils.VIEW, String.valueOf(blogInfo.getId()), blogInfo.getArticleViews());
             }else{
                 continue;
             }
@@ -401,28 +393,28 @@ public class BlogServiceImpl implements BlogService {
         for (Integer sortId : sortIds) {
             sortMapper.updateSortNum(sortId,1);
         }
-        Result BlogResult = new Result();
+        Result blogResult = new Result();
         if(index > 0){
-            BlogResult.setCode(200);
-            BlogResult.setMessage("删除成功");
+            blogResult.setCode(200);
+            blogResult.setMessage("删除成功");
         }else {
-            BlogResult.setCode(500);
-            BlogResult.setMessage("删除失败");
+            blogResult.setCode(500);
+            blogResult.setMessage("删除失败");
         }
-        return BlogResult;
+        return blogResult;
     }
 
     @Override
     public Result delComment(Integer id) {
         int index = blogMapper.delComment(id);
-        Result CommentResult = new Result();
+        Result commentResult = new Result();
         if(index > 0){
-            CommentResult.setCode(200);
-            CommentResult.setMessage("删除成功");
+            commentResult.setCode(200);
+            commentResult.setMessage("删除成功");
         }else {
-            CommentResult.setCode(500);
-            CommentResult.setMessage("删除失败");
+            commentResult.setCode(500);
+            commentResult.setMessage("删除失败");
         }
-        return CommentResult;
+        return commentResult;
     }
 }

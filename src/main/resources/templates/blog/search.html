@@ -28,9 +28,9 @@
        <h2 class="am-article-title blog-title">
          <a th:href="@{'/show/'+${blog.id}}" th:utext="${blog.articleTitle}"  target="_blank"></a>
        </h2>
-       <h3 class="am-article-meta blog-meta"><i class="far fa-calendar-alt"></i>&nbsp;<span th:utext="${#dates.format(blog.createBy, 'yyyy-MM-dd ')}"th:onclick="archive([[${#dates.format(blog.createBy, 'yyyy')}]])" class="Date">&nbsp;&nbsp;</span><i class="fas fa-user"></i>&nbsp;<span>林北</span>&nbsp;&nbsp;<th:block th:if="${blog.sortNames != null}">
+       <h3 class="am-article-meta blog-meta"><i class="far fa-calendar-alt"></i>&nbsp;<span th:utext="${#dates.format(blog.createBy, 'yyyy-MM-dd ')}"th:onclick="archive([[${#dates.format(blog.createBy, 'yyyy')}]])" class="Date">&nbsp;&nbsp;</span><i class="fas fa-user"></i>&nbsp;<span th:utext="${blog.author}"></span>&nbsp;&nbsp;<th:block th:if="${blog.sortNames != null}">
          <th:block th:each="sortName:${blog.sortNames}">
-           <span class="am-badge am-badge-primary" th:text="${sortName}"></span>
+           <span class="am-badge am-badge-primary" th:text="${sortName}" th:onclick="clickSortName([[${sortName}]])"></span>
          </th:block>
        </th:block></h3>
 

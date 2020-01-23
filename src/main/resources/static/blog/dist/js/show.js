@@ -49,14 +49,24 @@ $(function () {
     })
 
 });
-// var likeNum = $('#likeNum').html();
+
 $('#likeBtn').click(function () {
-    if(!liked){
-        //未点赞置为点赞
-        likeStatus(1)
-    }else{
-        //点赞置为未点赞
-        likeStatus(0);
+    if ($('#username').length > 0){
+        if(!liked){
+            //未点赞置为点赞
+            likeStatus(1)
+        }else{
+            //点赞置为未点赞
+            likeStatus(0);
+        }
+    }else {
+        swal({
+            title: "请先登录在点赞",
+            icon: "warning",
+            button: "登录"
+        }).then(function () {
+            location.href = "/login"
+        });
     }
 });
 function likeStatus(obj) {
@@ -92,5 +102,9 @@ function getLikedCountById() {
             $('#likeNum').html(data);
         }
     })
-
 }
+$('#login').click(function () {
+    var email = $('#email').val();
+    var password = $('#password').val();
+    $("#loginForm").submit();
+})

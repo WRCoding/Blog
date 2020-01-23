@@ -197,12 +197,12 @@
     </update>
 
     <insert id="writeHistoricalViews">
-        INSERT INTO blog_historicalviews(views) VALUES (#{currentViews})
+        INSERT INTO ${tableName}(views) VALUES (#{currentViews})
     </insert>
 
     <!--查询最近六天的历史访问量 -->
-    <select id="getHistoricalViews" resultType="HistoricalViews">
-        select create_by ,views from blog_historicalviews where create_by >=DATE_SUB(CURDATE(),INTERVAL 6 DAY) ORDER BY create_by
+    <select id="getHistoricalViews"  parameterType="string" resultType="HistoricalViews" statementType="STATEMENT">
+        select create_by ,views from ${tableName} where create_by >=DATE_SUB(CURDATE(),INTERVAL 6 DAY) ORDER BY create_by
     </select>
 
     <select id="getLikeStatus" resultType="userLike">

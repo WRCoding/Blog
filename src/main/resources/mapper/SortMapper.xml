@@ -41,19 +41,21 @@
         where id = #{sortId}
     </update>
 
-    <select id="sortBlog" parameterType="int" resultType="blogInfo">
-           SELECT
-        blog_article_info.id,
-        article_title,
-        image_url,
-        blog_article_info.create_by
-    FROM
-        ( blog_article_info LEFT JOIN blog_info_sort ON blog_article_info.id = blog_info_sort.article_id )
-        LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id
-    WHERE
-        blog_info_sort.article_id = blog_article_info.id
-        AND blog_article_info.is_delete = 0
-        AND blog_info_sort.sort_id = #{sortId} ORDER BY blog_article_info.create_by DESC
+    <select id="sortBlog" parameterType="string" resultType="blogInfo">
+        SELECT
+            blog_article_info.id,
+            article_title,
+            image_url,
+            blog_article_info.create_by
+        FROM
+            (( blog_article_info LEFT JOIN blog_info_sort ON blog_article_info.id = blog_info_sort.article_id )
+            LEFT JOIN blog_article_image ON blog_article_info.id = blog_article_image.article_id ) LEFT JOIN blog_sort ON blog_sort.id = blog_info_sort.sort_id
+        WHERE
+            blog_info_sort.article_id = blog_article_info.id
+            AND blog_article_info.is_delete = 0
+            AND blog_sort.sort_name = #{sortName}
+        ORDER BY
+            blog_article_info.create_by DESC
     </select>
 
     <update id="delSort" parameterType="int">

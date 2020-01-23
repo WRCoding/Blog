@@ -25,7 +25,7 @@ import java.util.List;
  * @create 2019-07-15 9:56
  */
 @Service("adminService")
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class AdminServiceImpl implements AdminService {
     @Autowired
     AdminMapper adminMapper;

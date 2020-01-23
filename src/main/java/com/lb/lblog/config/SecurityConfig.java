@@ -1,6 +1,7 @@
 package com.lb.lblog.config;
 
 import com.lb.lblog.handle.LoginFailureHandler;
+import com.lb.lblog.handle.LoginSuccesHandler;
 import com.lb.lblog.service.AdminService;
 import com.lb.lblog.service.impl.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private LoginFailureHandler loginFailureHandler;
+
+    @Autowired
+    private LoginSuccesHandler loginSuccesHandler;
     /**
      * 定制请求的授权规则
      * @param http
@@ -46,15 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/isRegistered").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/register").permitAll()
+                .antMatchers("/likeStatus").hasAnyRole("ADMIN","USER")
 //                .antMatchers("/show/**").hasAnyRole("ADMIN","USER")
                 .antMatchers("/admin/**").hasAnyRole("ADMIN","USER")
                 .and().formLogin().loginProcessingUrl("/login").loginPage("/login")
-                .successHandler(new AuthenticationSuccessHandler() {
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                        response.sendRedirect("/");
-                    }
-                })
+                .successHandler(loginSuccesHandler)
                 .failureHandler(loginFailureHandler);
         http.logout().logoutSuccessUrl("/");
         http.csrf().disable();

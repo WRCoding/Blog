@@ -22,14 +22,14 @@ public interface SortService {
      * @param pageNum
      * @return
      */
-    List<BlogInfo> sortBlog(Integer sortId, Integer pageNum);
+//    List<BlogInfo> sortBlog(Integer sortId, Integer pageNum);
 
     /**
-     * 根据分类Id获得博客
-     * @param sortId
+     * 根据分类名称获得博客
+     * @param sortName
      * @return
      */
-    List<BlogInfo> sortToBlog(Integer sortId);
+    List<BlogInfo> sortToBlog(String sortName);
 
     /**
      * 添加分类

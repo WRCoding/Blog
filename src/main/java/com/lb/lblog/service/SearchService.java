@@ -5,6 +5,9 @@ import com.lb.lblog.pojo.BlogInfo;
 
 import java.util.List;
 
+/**
+ * @author 林北
+ */
 public interface SearchService {
 
     /**
@@ -20,5 +23,5 @@ public interface SearchService {
      * @param searchKey
      * @return
      */
-    List<BlogInfo> searshBlogs(Integer pageNum, String searchKey);
+    List<BlogInfo> searchBlog(Integer pageNum, String searchKey);
 }

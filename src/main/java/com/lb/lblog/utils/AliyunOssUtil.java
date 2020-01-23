@@ -26,10 +26,10 @@ public class AliyunOssUtil {
     private static  final Logger logger = LoggerFactory.getLogger(AliyunOssUtil.class);
     private static String bucketName = AliyunOssConfigConstant.BUCKE_NAME;
     private static String endPoint = AliyunOssConfigConstant.END_POINT;
-    private static String accessKeyId = AliyunOssConfigConstant.AccessKey_ID;
-    private static String accessKeySecret = AliyunOssConfigConstant.AccessKey_Secret;
+    private static String accessKeyId = AliyunOssConfigConstant.ACCESSKEY_ID;
+    private static String accessKeySecret = AliyunOssConfigConstant.ACCESSKEY_SECRET;
     private static String fileHost = AliyunOssConfigConstant.FILE_HOST;
-    private String file_url;
+    private String fileUrl;
 
     public  String upLoad(File file){
         boolean isImage = true;
@@ -59,9 +59,9 @@ public class AliyunOssUtil {
             String fileUrl = fileHost + "/" + (dateStr + "/" + UUID.randomUUID().toString().replace("-", "")+"-"+file.getName());
             //如果是图片
             if(isImage){
-                file_url = "https://" + bucketName + "." + endPoint + "/" + fileUrl;
+                fileUrl = "https://" + bucketName + "." + endPoint + "/" + fileUrl;
             }else {
-                file_url = "非图片，不可预览。文件路径为：" + fileUrl;
+                fileUrl = "非图片，不可预览。文件路径为：" + fileUrl;
             }
             //上传文件
             PutObjectResult result = ossClient.putObject(new PutObjectRequest(bucketName, fileUrl, file));
@@ -77,6 +77,6 @@ public class AliyunOssUtil {
                 ossClient.shutdown();
             }
         }
-        return file_url;
+        return fileUrl;
     }
 }

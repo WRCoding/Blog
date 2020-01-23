@@ -1,6 +1,7 @@
 package com.lb.lblog.controller.blog;
 
 import com.github.pagehelper.PageInfo;
+import com.lb.lblog.controller.aop.ViewAop;
 import com.lb.lblog.dto.Result;
 import com.lb.lblog.pojo.BlogInfo;
 import com.lb.lblog.pojo.Comment;
@@ -26,6 +27,8 @@ import java.util.Map;
  */
 @Controller
 public class BlogController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BlogController.class);
 
     @Autowired
     private BlogService blogService;

@@ -121,6 +121,7 @@ function replayModal(obj,id) {
     }else {
         swal("请先登录在回复",{
             icon: "warning",
+            confirmButtonText: "登录"
         });
         return;
     }

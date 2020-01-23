@@ -11,10 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("SortService")
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class SortServiceImpl implements SortService {
 
 
@@ -26,15 +27,26 @@ public class SortServiceImpl implements SortService {
         return sortMapper.getAllSorts();
     }
 
-    @Override
-    public List<BlogInfo> sortBlog(Integer sortId, Integer pageNum) {
-        PageHelper.startPage(pageNum,3 );
-        return sortMapper.sortBlog(sortId);
-    }
+//    @Override
+//    public List<BlogInfo> sortBlog(Integer sortId, Integer pageNum) {
+//        PageHelper.startPage(pageNum,3 );
+//        List<BlogInfo> sortBlogs = sortMapper.sortBlog(sortId);
+//        for (BlogInfo blog : sortBlogs) {
+//            if(blog.getSorts() != null){
+//                String[] names = blog.getSorts().split(",");
+//                List<String> sortNames = new ArrayList<>();
+//                for (String name : names) {
+//                    sortNames.add(name);
+//                }
+//                blog.setSortNames(sortNames);
+//            }
+//        }
+//        return sortBlogs;
+//    }
 
     @Override
-    public List<BlogInfo> sortToBlog(Integer sortId) {
-        return sortMapper.sortBlog(sortId);
+    public List<BlogInfo> sortToBlog(String sortName) {
+        return sortMapper.sortBlog(sortName);
     }
 
     @Override
@@ -68,14 +80,14 @@ public class SortServiceImpl implements SortService {
     @Override
     public Result delSort(Integer id) {
         int index = sortMapper.delSort(id);
-        Result SortResult = new Result();
+        Result sortResult = new Result();
         if(index > 0){
-            SortResult.setCode(200);
-            SortResult.setMessage("删除成功");
+            sortResult.setCode(200);
+            sortResult.setMessage("删除成功");
         }else {
-            SortResult.setCode(500);
-            SortResult.setMessage("删除失败");
+            sortResult.setCode(500);
+            sortResult.setMessage("删除失败");
         }
-        return SortResult;
+        return sortResult;
     }
 }

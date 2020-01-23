@@ -28,8 +28,11 @@ import java.util.Map;
  */
 @Component
 @Aspect
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class ViewAop {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ViewAop.class);
+
     @Autowired
     private HttpServletRequest request;
 
@@ -55,16 +58,17 @@ public class ViewAop {
         Object[] args = point.getArgs();
         Integer id = (Integer) args[1];
         HashOperations hashOperations = redisTemplate.opsForHash();
-        ZSetOperations zSetOperations = redisTemplate.opsForZSet();
-        Map<String,BlogInfo> map = hashOperations.entries(String.valueOf(id));
-        if(map != null){
-            zSetOperations.incrementScore("views", id, 1);
+        ZSetOperations<String,Object> zSetOperations = redisTemplate.opsForZSet();
+        BlogInfo blog = (BlogInfo) hashOperations.get(RedisKeyUtils.BLOG, String.valueOf(id));
+        if(blog != null){
+            zSetOperations.incrementScore(RedisKeyUtils.VIEW, String.valueOf(id), 1);
         }
     }
     @After("pointCut()")
     public void setUserViews(){
         HashOperations hashOperations = redisTemplate.opsForHash();
         String username = (String) request.getSession().getAttribute("username");
+        System.out.println("username: "+username);
         if (!hashOperations.hasKey(RedisKeyUtils.USER_VIEWS,username)){
             hashOperations.put(RedisKeyUtils.USER_VIEWS,username , 1);
         }else {
