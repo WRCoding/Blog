@@ -5,12 +5,13 @@
 
 ---
 
-2019-11-23：博客从发布到现在已经更新了数次，功能完善了许多，最新更新加入了权限控制和点赞功能，只有登录才能查看文章内容
+2020-01-23：博客从发布到现在已经更新了数次，功能完善了许多，最新更新加入了权限控制和点赞功能
 
 
-博客演示：[林北的博客](http://lpepsi.top/)
+博客演示：[林北的博客](http://lpepsi.top/)【服务器暂时被我关闭了】
 
-数据库测试文件也一同上传了，MySQL版本为5.7的用后缀为5.7的文件，MySQL为8的用无后缀的文件，如果对你有帮助请点个Star,谢谢啦（最新的更新只更新了8的数据库测试文件，如需要5.7的可自行修改）
+博客已经开源在了[GitHub](https://github.com/WRCoding/Blog)，数据库测试文件也一同上传了，如果对你有帮助请点个Star,谢谢啦
+
 因为目前实力有限，博客还有很多可以改进，有什么建议可以一起讨论
 ## 本次所用到的技术和框架
 
@@ -31,18 +32,20 @@
 **主页**
 
  - 以分页列表的形式展示文章，以及文章的作者和创作时间
+ -  登录和注册
  - 能够查看最新的文章
  - 通过分类查询文章
  - 能够查看访问量最多的文章
- - 登录后能够对每篇文章进行评论并且能够回复评论以及对文章点赞
+ - 登录后能够对每篇文章进行评论并且能够回复评论
+ - 文章点赞
  - 根据时间归档
  - 通过二维码扫描在手机端浏览
- - 登录和注册
+
 
 **后台管理**
 
- - 记录网站的访问量，博客数以及评论数
- - 历史浏览量可视化
+ - 记录每个用户的访问量，博客数以及评论数
+ - 网站数据可视化（仅限管理员）
  - 以MarkDown的形式发布文章，支持插入本地图片和网络图片
  - 博客管理，以分页的形式展示文章信息，对文章进行编辑和删除
  - 评论管理，以分页的形式展示评论信息，对评论进行回复和删除
@@ -53,6 +56,7 @@
 
  - 采用SpringBoot开发，数据库采用Mybatis，页面渲染使用Thymeleaf
  - 对于系统的关键业务如访问量最高的文章和使用Redis缓存，加快响应速度。
+ - 对高频操作数据库的业务如文章浏览量，点赞状态的更新先集中在Redis再定时持久化到数据库中，减少数据库的压力
  - 使用Quartz进行历史浏览量的定时操作以及定时存储浏览量和访问量
  - 使用Quartz对点赞状态和点赞数量进行定时持久化操作
  - 使用SpringSecurity进行权限控制
@@ -64,9 +68,10 @@
 **主页**
 登录前：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191123133033371.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20191106174913891.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)
+
 登录后：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191123133147373.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200123161035789.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)
 **登录页面**
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191123133324155.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)
 **注册页面**
@@ -91,11 +96,12 @@
 
 
 **评论**
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190801113257687.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200123161203795.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/202001231612300.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)
 **后台管理**
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191106143744140.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)
-**历史浏览量可视化**
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20191106144043321.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)
+**网站数据可视化**
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020012316131698.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)
 **发布博客**
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190916070420198.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)
 **编辑文章**

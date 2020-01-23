@@ -11,7 +11,7 @@
  Target Server Version : 80013
  File Encoding         : 65001
 
- Date: 23/11/2019 13:22:26
+ Date: 23/01/2020 16:16:26
 */
 
 SET NAMES utf8mb4;
@@ -30,7 +30,7 @@ CREATE TABLE `blog_article_comment`  (
   `modified_by` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   `is_delete` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否删除，默认为0，1为是',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_article_comment
@@ -52,6 +52,9 @@ INSERT INTO `blog_article_comment` VALUES (16, 10, '憨憨', '成功没', '2019-
 INSERT INTO `blog_article_comment` VALUES (17, 10, '图hello', '测试正则', '2019-08-28 12:28:59', '2019-08-28 12:28:59', 0);
 INSERT INTO `blog_article_comment` VALUES (18, 16, '哈哈', '嘻嘻', '2019-09-22 14:11:39', '2019-09-22 14:11:39', 0);
 INSERT INTO `blog_article_comment` VALUES (19, 18, '考呗', '哈哈哈哈', '2019-09-30 08:03:24', '2019-09-30 08:03:24', 0);
+INSERT INTO `blog_article_comment` VALUES (20, 21, '林北', '点赞！', '2019-12-29 16:39:37', '2019-12-29 16:39:37', 0);
+INSERT INTO `blog_article_comment` VALUES (21, 22, '哈士奇', '点赞点赞！！！', '2020-01-03 11:23:09', '2020-01-03 11:23:09', 0);
+INSERT INTO `blog_article_comment` VALUES (22, 22, '柠檬', '哈士奇真棒！', '2020-01-03 11:24:08', '2020-01-03 11:24:08', 0);
 
 -- ----------------------------
 -- Table structure for blog_article_content
@@ -64,7 +67,7 @@ CREATE TABLE `blog_article_content`  (
   `create_by` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modified_by` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_article_content
@@ -82,6 +85,11 @@ INSERT INTO `blog_article_content` VALUES (12, '啊倒萨打算', 15, '2019-09-1
 INSERT INTO `blog_article_content` VALUES (13, 'asdasdasd\n![](https://lpepsi.oss-cn-shenzhen.aliyuncs.com/pepsi/2019-09-15/f3fe0fb7e8854d3ba1e390469031dba1-v2-12ad3b0ada1300b7d89796d62ebcdf68_r.jpg)', 16, '2019-09-15 19:49:19', '2019-09-15 19:49:19');
 INSERT INTO `blog_article_content` VALUES (14, '## Redis\nredis是一个key-value的NOSQL数据库，读写的速度很快', 17, '2019-09-29 14:34:55', '2019-09-29 14:34:55');
 INSERT INTO `blog_article_content` VALUES (15, '## LPepsi\nLPepsi\nLPepsi\n', 18, '2019-09-29 14:44:26', '2019-09-30 08:02:46');
+INSERT INTO `blog_article_content` VALUES (16, '![](https://lpepsi.oss-cn-shenzhen.aliyuncs.com/pepsi/2019-12-21/4e01a2b8309542a8b62a98cbc2104c01-img_6.jpg)\n**测试**\n# 哈哈哈哈哈\n', 19, '2019-12-21 11:03:04', '2019-12-21 11:03:04');
+INSERT INTO `blog_article_content` VALUES (17, '# 哈士奇\n![](https://lpepsi.oss-cn-shenzhen.aliyuncs.com/pepsi/2019-12-21/7517edbe988e466099fbd8bcff92968f-Dog.png)', 20, '2019-12-21 14:58:54', '2019-12-21 14:58:54');
+INSERT INTO `blog_article_content` VALUES (18, '## 前言\n写这篇博客的缘由是之前在做网易的笔试的时候，简答题问了浅拷贝和深拷贝的区别和在Java的实现，因为之前都没了解过深，浅拷贝所以白白丢分，所以今天就查阅了资料，好好整理下深，浅拷贝的区别\n\n## 深拷贝和浅拷贝\n**浅拷贝：** 浅拷贝指的是把原对象的所有属性都拷贝到新对象上去，如果字段是值类型的，那么对该字段执行复制；如果该字段是引用类型的话，则复制引用但不复制引用的对象。因此，原始对象及其新对象引用同一个对象。但是String例外，为啥我们下面会讲\n\n**深拷贝：** 深拷贝指的是把原对象的所有属性都复制一份新的再拷贝到新对象上，也就是无论该字段是值类型的还是引用类型，都复制独立的一份。当你修改其中一个对象的任何内容时，都不会影响另一个对象的内容。\n\n## 实现\n浅拷贝通过**clone()方法**实现，clone属于Object里的方法，也就是说所有对象都可以拷贝\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20190923093735884.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)\n但是要让类能够实现拷贝，类必须实现**Cloneable**接口，否则会抛出**CloneNotSupportedException** 异常\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20190923145632387.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)\n简单来说就是在拷贝的时候，clone()会先检查你要拷贝的类是否实现了**Cloneable**接口，如果没有会抛出异常。\n\n## 实现\n**浅拷贝**\n我们先写一个Son类\n\n```java\npublic class Son implements Cloneable, Serializable {\n    private String name = \"I am son\";\n    private Integer age = 21;\n\n    public String getName() {\n        return name;\n    }\n\n    public void setName(String name) {\n        this.name = name;\n    }\n\n    public Integer getAge() {\n        return age;\n    }\n\n    public void setAge(Integer age) {\n        this.age = age;\n    }\n\n    @Override\n    protected Object clone() throws CloneNotSupportedException {\n        return super.clone();\n    }\n}\n```\n再写一个Father类，类中有Son对象, **注意：必须实现Cloneable接口**\n\n```java\npublic class Father implements Cloneable, Serializable {\n    private String name = \"I am father\";\n    private Integer age = 30;\n    private Son son = new Son();\n\n    public String getName() {\n        return name;\n    }\n\n    public void setName(String name) {\n        this.name = name;\n    }\n\n    public Integer getAge() {\n        return age;\n    }\n\n    public void setAge(Integer age) {\n        this.age = age;\n    }\n\n    public Son getSon() {\n        return son;\n    }\n\n    public void setSon(Son son) {\n        this.son = son;\n    }\n        @Override\n    protected Object clone() throws CloneNotSupportedException {\n        	return super.clone();\n    }\n}\n```\n测试：\n\n```java\n    public static void main(String[] args) {\n        Father father = new Father();\n        try {\n            Father ganFather = (Father) father.clone();\n            System.out.println(\"ganFather == father : \"+ (ganFather == father));\n            System.out.println(\"ganFather: \"+ganFather);\n            System.out.println(\"father: \"+father);\n            System.out.println(\"ganFather.getName() == father.getName() : \"+(ganFather.getName() == father.getName()));\n            System.out.println(ganFather.getName().hashCode());\n            System.out.println(father.getName().hashCode());\n            father.setName(\"Father\");\n            System.out.println(father.getName()+\" , \"+ganFather.getName());\n            father.setAge(55);\n            System.out.println(father.getAge()+\" , \"+ganFather.getAge());\n            System.out.println(\"ganFather.getSon() == father.getSon() : \"+(ganFather.getSon() == father.getSon()));\n            System.out.println(\"ganFather.getSon() : \"+ganFather.getSon());\n            System.out.println(\"father.getSon() : \"+father.getSon());\n            father.getSon().setName(\"Son\");\n            System.out.println(father.getSon().getName()+\" , \"+ganFather.getSon().getName());\n        } catch (Exception e) {\n            e.printStackTrace();\n        }\n    }\n```\n结果：\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20190923150405263.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)\n从结果可以看到，父亲的名字和年龄改变了，但干爹的对应数据没有改变，但是修改父亲中儿子的名字，干爹中儿子的名字也跟着改变了，这就是因为浅拷贝只复制了对象的引用。\n可能有人要问String也是引用类型，为啥父亲中String类型的name改变，干爹对应的却没有变呢，这是因为String是不可变的，指向常量池，因为String的不可变性，改变name时并不是改变它本身，而是新创建了个字符串并指向他\n\n初始：\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20190923153549351.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)\n修改name之后：\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20190923153759336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)\n可以看到父亲的引用改变了但干爹的引用并没有改变，所以String虽然是引用类型，但是它的改变并不会影响原始对象或者新对象。\n\n而改变父亲Son的名字，干爹Son的名字也会改变是因为，他们引用的是同一个对象\n\n初始：\n\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20190923155438600.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)\n修改name之后：\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20190923160509231.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)\n所以修改原对象的引用类型，新对象的引用类型也会跟着改变\n\n**深拷贝**\n深拷贝有两种方法\n\n - **让每个引用类型都重写clone() 方法**\n既然引用类型不能实现深拷贝，那么我们将每个引用类型都拆分为基本类型，分别进行浅拷贝。比如上面的例子，Father类有一个引用类型 Son，我们在 Son类内部也重写 clone 方法。如下：\n\n```java\n	Son类\n    @Override\n    protected Object clone() throws CloneNotSupportedException {\n        return super.clone();\n    }\n    Father类\n        @Override\n    protected Object clone() throws CloneNotSupportedException {\n        Father father = (Father) super.clone();\n        father.son = (Son) father.son.clone();\n        return father;\n//        return super.clone();\n    }\n```\n测试跟上面一样，结果如下：\n![在这里插入图片描述](https://img-blog.csdnimg.cn/20190923162903110.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwODY2ODk3,size_16,color_FFFFFF,t_70)\n可以看到Son是两个对象，父亲的Son改变并没有影响干爹的Son。\n这方法简单，但是有个弊端，这里我们Father类只有一个 Son 引用类型，而 Son 类没有，所以我们只用重写 Son 类的clone 方法，但是如果 Son 类也存在一个引用类型，那么我们也要重写其clone 方法，这样下去，有多少个引用类型，我们就要重写多少次，如果存在很多引用类型，那么代码量显然会很大，所以这种方法不太合适。\n\n - 序列化\n\n序列化是将对象写到流中便于传输，而反序列化则是把对象从流中读取出来。这里将对象序列化写到缓冲区中，然后通过反序列化从缓冲区中获取这个对象。\n\n**注意每个需要序列化的类都要实现 Serializable 接口，如果有某个属性不需要序列化，可以将其声明为 transient，即将其排除在克隆属性之外。**\n\n```java\n    public Father deepClone() throws Exception {\n        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();\n        ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);\n        objectOutputStream.writeObject(this);\n        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());\n        ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);\n        return (Father) objectInputStream.readObject();\n    }\n```\n\n因为序列化产生的是两个完全独立的对象，所以无论嵌套多少个引用类型，序列化都是能实现深拷贝的。\n', 21, '2019-12-29 16:38:16', '2019-12-29 16:38:16');
+INSERT INTO `blog_article_content` VALUES (19, '# 测试用户访问量\n测试用户访问量\n测试用户访问量**测试用户访问量**\n测试用户访问量\n测试用户访问量\n测试用户访问量测试用户访问量\n测试用户访问量\n测试用户访问量\n测试用户访问量', 22, '2020-01-03 11:22:30', '2020-01-03 11:22:30');
+INSERT INTO `blog_article_content` VALUES (20, '# 测试分类功能\n# 测试分类功能\n# 测试分类功能\n## 测试分类功能\n---\n![](https://lpepsi.oss-cn-shenzhen.aliyuncs.com/pepsi/2020-01-05/10b6eb4aa0a34e039d55241e5ac858f2-img_6.jpg)', 23, '2020-01-03 16:21:09', '2020-01-05 10:39:50');
 
 -- ----------------------------
 -- Table structure for blog_article_image
@@ -94,7 +102,7 @@ CREATE TABLE `blog_article_image`  (
   `create_by` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modified_by` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '这张表用来保存题图url，每一篇文章都应该有题图' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '这张表用来保存题图url，每一篇文章都应该有题图' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_article_image
@@ -112,6 +120,11 @@ INSERT INTO `blog_article_image` VALUES (11, 15, 'https://lpepsi.oss-cn-shenzhen
 INSERT INTO `blog_article_image` VALUES (12, 16, 'https://lpepsi.oss-cn-shenzhen.aliyuncs.com/pepsi/2019-09-15/19a51bdc4f544f79ae27bf7edbeba261-wallhaven-0prol9.png', '2019-09-15 19:49:19', '2019-09-15 19:49:19');
 INSERT INTO `blog_article_image` VALUES (13, 17, 'https://lpepsi.oss-cn-shenzhen.aliyuncs.com/pepsi/2019-09-29/b8ef7bb7b1ce42b1bc391ecc1ea18a85-img_6.jpg', '2019-09-29 14:34:55', '2019-09-29 14:34:55');
 INSERT INTO `blog_article_image` VALUES (14, 18, 'https://lpepsi.oss-cn-shenzhen.aliyuncs.com/pepsi/2019-09-29/be2b887e07624578a57fa10521c9defb-v2-12ad3b0ada1300b7d89796d62ebcdf68_r.jpg', '2019-09-29 14:44:26', '2019-09-29 14:44:26');
+INSERT INTO `blog_article_image` VALUES (15, 19, 'https://lpepsi.oss-cn-shenzhen.aliyuncs.com/pepsi/2019-12-21/21861e3b6938492ebc0f3a76f589ab94-kwkg5q.jpg', '2019-12-21 11:03:04', '2019-12-21 11:03:04');
+INSERT INTO `blog_article_image` VALUES (16, 20, 'https://lpepsi.oss-cn-shenzhen.aliyuncs.com/pepsi/2019-12-21/3b05d199d6454225ab2b487864530a78-Dog2.png', '2019-12-21 14:58:54', '2019-12-21 14:58:54');
+INSERT INTO `blog_article_image` VALUES (17, 21, 'https://lpepsi.oss-cn-shenzhen.aliyuncs.com/pepsi/2019-12-29/5bdc356d263646b59d84a67675faff2b-IMG_4045.JPG', '2019-12-29 16:38:16', '2019-12-29 16:38:16');
+INSERT INTO `blog_article_image` VALUES (18, 22, 'https://lpepsi.oss-cn-shenzhen.aliyuncs.com/pepsi/2020-01-03/585a4639eab24431a24c6e11452bc9c3-Dog.png', '2020-01-03 11:22:30', '2020-01-03 11:22:30');
+INSERT INTO `blog_article_image` VALUES (19, 23, 'https://lpepsi.oss-cn-shenzhen.aliyuncs.com/pepsi/2020-01-03/5c57fc0ee91644a3b8be2ccec89951d4-kwkg5q.jpg', '2020-01-03 16:21:09', '2020-01-03 16:21:09');
 
 -- ----------------------------
 -- Table structure for blog_article_info
@@ -119,6 +132,7 @@ INSERT INTO `blog_article_image` VALUES (14, 18, 'https://lpepsi.oss-cn-shenzhen
 DROP TABLE IF EXISTS `blog_article_info`;
 CREATE TABLE `blog_article_info`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `author` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '作者',
   `article_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '文章标题',
   `article_views` int(10) NOT NULL DEFAULT 0 COMMENT '访问量',
   `create_by` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -127,24 +141,29 @@ CREATE TABLE `blog_article_info`  (
   `like_num` int(10) NOT NULL DEFAULT 0 COMMENT '点赞数量',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_title`(`article_title`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_article_info
 -- ----------------------------
-INSERT INTO `blog_article_info` VALUES (3, 'ssm搭建博客', 2, '2019-07-17 21:56:19', '2019-11-17 16:30:14', 0, 0);
-INSERT INTO `blog_article_info` VALUES (4, 'springmvc+mybatis+sping搭建博客', 0, '2018-07-17 22:03:07', '2019-09-28 12:39:10', 0, 0);
-INSERT INTO `blog_article_info` VALUES (5, 'SpringBoot', 1, '2018-07-19 16:12:30', '2019-11-16 13:59:59', 0, 0);
-INSERT INTO `blog_article_info` VALUES (6, 'admitLet', 12, '2019-07-19 17:05:49', '2019-11-16 16:59:59', 0, 0);
-INSERT INTO `blog_article_info` VALUES (7, 'springboot-使用editor.md及使用阿里云OSS作图床', 0, '2017-07-20 09:50:53', '2019-09-28 12:39:30', 0, 0);
-INSERT INTO `blog_article_info` VALUES (8, '测试图片的显示', 0, '2019-07-21 10:13:19', '2019-09-28 12:39:30', 0, 0);
-INSERT INTO `blog_article_info` VALUES (9, '测试测试测试啊', 0, '2017-07-27 10:56:53', '2019-09-28 12:39:30', 0, 0);
-INSERT INTO `blog_article_info` VALUES (10, 'LeetCode', 1, '2019-08-11 22:22:36', '2019-11-12 21:59:59', 0, 0);
-INSERT INTO `blog_article_info` VALUES (11, 'sd阿萨大', 0, '2017-09-13 15:35:07', '2019-09-28 12:38:33', 1, 0);
-INSERT INTO `blog_article_info` VALUES (15, '更新后的十大弟弟', 2, '2019-09-13 16:24:59', '2019-11-12 21:59:59', 0, 0);
-INSERT INTO `blog_article_info` VALUES (16, 'PDD', 4, '2019-09-15 19:49:19', '2019-11-16 14:59:59', 0, 0);
-INSERT INTO `blog_article_info` VALUES (17, '谈谈Redis', 8, '2019-09-29 14:34:55', '2019-11-16 13:59:59', 0, 0);
-INSERT INTO `blog_article_info` VALUES (18, '林北', 10, '2019-09-29 14:44:26', '2019-11-23 10:19:36', 0, 5);
+INSERT INTO `blog_article_info` VALUES (3, '林北', 'ssm搭建博客', 2, '2019-07-17 21:56:19', '2019-12-08 09:58:50', 0, 0);
+INSERT INTO `blog_article_info` VALUES (4, '林北', 'springmvc+mybatis+sping搭建博客', 0, '2018-07-17 22:03:07', '2019-12-08 09:59:15', 0, 0);
+INSERT INTO `blog_article_info` VALUES (5, '林北', 'SpringBoot', 1, '2018-07-19 16:12:30', '2019-12-08 09:59:15', 0, 0);
+INSERT INTO `blog_article_info` VALUES (6, '林北', 'admitLet', 13, '2019-07-19 17:05:49', '2019-12-08 11:12:51', 0, 0);
+INSERT INTO `blog_article_info` VALUES (7, '林北', 'springboot-使用editor.md及使用阿里云OSS作图床', 0, '2017-07-20 09:50:53', '2019-12-08 09:59:15', 0, 0);
+INSERT INTO `blog_article_info` VALUES (8, '柠檬', '测试图片的显示', 0, '2019-07-21 10:13:19', '2019-12-08 10:00:22', 0, 0);
+INSERT INTO `blog_article_info` VALUES (9, '柠檬', '测试测试测试啊', 0, '2017-07-27 10:56:53', '2019-12-08 10:00:30', 0, 0);
+INSERT INTO `blog_article_info` VALUES (10, '柠檬', 'LeetCode', 4, '2019-08-11 22:22:36', '2020-01-05 17:54:40', 0, 1);
+INSERT INTO `blog_article_info` VALUES (11, '林北', 'sd阿萨大', 0, '2017-09-13 15:35:07', '2019-12-08 09:59:15', 1, 0);
+INSERT INTO `blog_article_info` VALUES (15, '林北', '更新后的十大弟弟', 3, '2019-09-13 16:24:59', '2020-01-05 17:53:50', 0, 0);
+INSERT INTO `blog_article_info` VALUES (16, '小二', 'PDD', 7, '2019-09-15 19:49:19', '2019-12-08 11:15:11', 0, 0);
+INSERT INTO `blog_article_info` VALUES (17, '林北', '谈谈Redis', 18, '2019-09-29 14:34:55', '2020-01-05 17:53:50', 0, 0);
+INSERT INTO `blog_article_info` VALUES (18, '小二', '林北', 24, '2019-09-29 14:44:26', '2019-12-30 06:21:51', 0, 5);
+INSERT INTO `blog_article_info` VALUES (19, '柠檬', '测试', 9, '2019-12-21 11:03:04', '2020-01-05 00:00:02', 0, 1);
+INSERT INTO `blog_article_info` VALUES (20, '哈士奇', '哈士奇的第一篇博客', 5, '2019-12-21 14:58:54', '2020-01-15 10:00:30', 0, 1);
+INSERT INTO `blog_article_info` VALUES (21, '林北', 'Java浅拷贝和深拷贝的区别和实现', 3, '2019-12-29 16:38:16', '2020-01-19 09:11:40', 0, 1);
+INSERT INTO `blog_article_info` VALUES (22, '哈士奇', '测试用户访问量', 1, '2020-01-03 11:22:30', '2020-01-19 09:11:40', 0, 2);
+INSERT INTO `blog_article_info` VALUES (23, '哈士奇', '测试分类功能', 2, '2020-01-03 16:21:09', '2020-01-19 09:12:40', 0, 2);
 
 -- ----------------------------
 -- Table structure for blog_article_replay
@@ -158,7 +177,7 @@ CREATE TABLE `blog_article_replay`  (
   `modified_by` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   `is_delete` int(10) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_article_replay
@@ -174,6 +193,51 @@ INSERT INTO `blog_article_replay` VALUES (24, 4, '111', '2019-08-10 09:23:48', '
 INSERT INTO `blog_article_replay` VALUES (25, 13, '测试直接回复', '2019-08-10 09:37:21', '2019-08-10 09:37:21', 1);
 INSERT INTO `blog_article_replay` VALUES (26, 15, '谢谢！！！', '2019-08-27 15:59:00', '2019-08-27 15:59:00', 1);
 INSERT INTO `blog_article_replay` VALUES (30, 18, '哈哈', '2019-09-22 14:11:51', '2019-09-22 14:11:51', 1);
+INSERT INTO `blog_article_replay` VALUES (31, 19, 'dd', '2019-12-21 15:18:17', '2019-12-21 15:18:17', 1);
+
+-- ----------------------------
+-- Table structure for blog_blog_num
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_blog_num`;
+CREATE TABLE `blog_blog_num`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `views` int(10) NOT NULL COMMENT '每日的访问量',
+  `create_by` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 335 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog_blog_num
+-- ----------------------------
+INSERT INTO `blog_blog_num` VALUES (1, 1024, '2019-11-01 23:59:59');
+INSERT INTO `blog_blog_num` VALUES (2, 1040, '2019-11-02 23:59:59');
+INSERT INTO `blog_blog_num` VALUES (3, 1075, '2019-11-03 23:59:59');
+INSERT INTO `blog_blog_num` VALUES (4, 1090, '2019-12-09 23:59:59');
+INSERT INTO `blog_blog_num` VALUES (5, 1110, '2019-12-26 23:59:59');
+INSERT INTO `blog_blog_num` VALUES (6, 10, '2019-12-30 23:59:59');
+INSERT INTO `blog_blog_num` VALUES (7, 15, '2019-12-31 23:59:59');
+
+-- ----------------------------
+-- Table structure for blog_historical_views
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_historical_views`;
+CREATE TABLE `blog_historical_views`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `views` int(10) NOT NULL COMMENT '每日的访问量',
+  `create_by` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 335 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog_historical_views
+-- ----------------------------
+INSERT INTO `blog_historical_views` VALUES (1, 1024, '2019-11-01 23:59:59');
+INSERT INTO `blog_historical_views` VALUES (2, 1040, '2019-11-02 23:59:59');
+INSERT INTO `blog_historical_views` VALUES (3, 1075, '2019-11-03 23:59:59');
+INSERT INTO `blog_historical_views` VALUES (4, 1090, '2019-12-09 23:59:59');
+INSERT INTO `blog_historical_views` VALUES (5, 1110, '2019-12-26 23:59:59');
+INSERT INTO `blog_historical_views` VALUES (6, 1127, '2019-12-30 23:59:59');
+INSERT INTO `blog_historical_views` VALUES (7, 1131, '2019-12-31 23:59:59');
 
 -- ----------------------------
 -- Table structure for blog_info_sort
@@ -187,7 +251,7 @@ CREATE TABLE `blog_info_sort`  (
   `modified_by` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `is_effective` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否有效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_info_sort
@@ -210,6 +274,34 @@ INSERT INTO `blog_info_sort` VALUES (15, 2, 10, '2019-09-28 12:26:15', '2019-09-
 INSERT INTO `blog_info_sort` VALUES (16, 3, 11, '2019-09-28 12:26:29', '2019-09-28 12:26:29', 1);
 INSERT INTO `blog_info_sort` VALUES (17, 5, 17, '2019-09-29 14:34:55', '2019-09-29 14:34:55', 1);
 INSERT INTO `blog_info_sort` VALUES (18, 6, 18, '2019-09-29 14:44:26', '2019-09-29 14:44:26', 1);
+INSERT INTO `blog_info_sort` VALUES (19, 3, 19, '2019-12-21 11:03:04', '2019-12-21 11:03:04', 1);
+INSERT INTO `blog_info_sort` VALUES (20, 7, 20, '2019-12-21 14:58:54', '2019-12-21 14:58:54', 1);
+INSERT INTO `blog_info_sort` VALUES (21, 5, 21, '2019-12-29 16:38:16', '2019-12-29 16:38:16', 1);
+INSERT INTO `blog_info_sort` VALUES (22, 7, 22, '2020-01-03 11:22:30', '2020-01-03 11:22:30', 1);
+INSERT INTO `blog_info_sort` VALUES (23, 1, 23, '2020-01-03 16:21:09', '2020-01-03 16:21:09', 1);
+INSERT INTO `blog_info_sort` VALUES (24, 2, 23, '2020-01-03 16:21:09', '2020-01-03 16:21:09', 1);
+
+-- ----------------------------
+-- Table structure for blog_like_num
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_like_num`;
+CREATE TABLE `blog_like_num`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `views` int(10) NOT NULL COMMENT '每日的访问量',
+  `create_by` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 259 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog_like_num
+-- ----------------------------
+INSERT INTO `blog_like_num` VALUES (1, 1024, '2019-11-01 23:59:59');
+INSERT INTO `blog_like_num` VALUES (2, 1040, '2019-11-02 23:59:59');
+INSERT INTO `blog_like_num` VALUES (3, 1075, '2019-11-03 23:59:59');
+INSERT INTO `blog_like_num` VALUES (4, 1090, '2019-12-09 23:59:59');
+INSERT INTO `blog_like_num` VALUES (5, 1110, '2019-12-26 23:59:59');
+INSERT INTO `blog_like_num` VALUES (6, 50, '2019-12-30 23:59:59');
+INSERT INTO `blog_like_num` VALUES (7, 60, '2019-12-31 23:59:59');
 
 -- ----------------------------
 -- Table structure for blog_sort
@@ -223,226 +315,18 @@ CREATE TABLE `blog_sort`  (
   `modified_by` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `is_effective` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否有效，默认1有效，0无效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_sort
 -- ----------------------------
-INSERT INTO `blog_sort` VALUES (1, 'SpringMVC', 2, '2019-09-13 14:54:47', '2019-09-28 12:21:17', 1);
-INSERT INTO `blog_sort` VALUES (2, 'Spring', 3, '2019-09-13 14:58:45', '2019-09-15 19:49:19', 1);
-INSERT INTO `blog_sort` VALUES (3, 'SpringBoot', 2, '2019-09-13 14:59:54', '2019-09-15 19:49:19', 1);
-INSERT INTO `blog_sort` VALUES (4, 'MyBatis', 2, '2019-09-13 17:04:47', '2019-09-15 19:49:19', 1);
-INSERT INTO `blog_sort` VALUES (5, 'Java基础', 1, '2019-09-23 16:48:11', '2019-09-29 14:34:55', 1);
+INSERT INTO `blog_sort` VALUES (1, 'SpringMVC', 4, '2019-09-13 14:54:47', '2020-01-03 16:23:08', 1);
+INSERT INTO `blog_sort` VALUES (2, 'Spring', 6, '2019-09-13 14:58:45', '2020-01-03 16:23:38', 1);
+INSERT INTO `blog_sort` VALUES (3, 'SpringBoot', 5, '2019-09-13 14:59:54', '2020-01-03 16:31:24', 1);
+INSERT INTO `blog_sort` VALUES (4, 'MyBatis', 3, '2019-09-13 17:04:47', '2020-01-03 16:24:05', 1);
+INSERT INTO `blog_sort` VALUES (5, 'Java基础', 2, '2019-09-23 16:48:11', '2019-12-29 16:38:16', 1);
 INSERT INTO `blog_sort` VALUES (6, 'Linux', 1, '2019-09-24 07:14:10', '2019-09-29 14:44:26', 1);
-
--- ----------------------------
--- Table structure for blog_sysrecord
--- ----------------------------
-DROP TABLE IF EXISTS `blog_sysrecord`;
-CREATE TABLE `blog_sysrecord`  (
-  `id` bigint(40) NOT NULL AUTO_INCREMENT,
-  `visit_time` datetime(0) NULL DEFAULT NULL,
-  `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 192 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of blog_sysrecord
--- ----------------------------
-INSERT INTO `blog_sysrecord` VALUES (1, '2019-08-21 10:58:20', '0:0:0:0:0:0:0:1', '/', NULL);
-INSERT INTO `blog_sysrecord` VALUES (2, '2019-08-21 10:58:36', '0:0:0:0:0:0:0:1', '/show/10', NULL);
-INSERT INTO `blog_sysrecord` VALUES (3, '2019-08-21 10:59:16', '0:0:0:0:0:0:0:1', '/page/2', NULL);
-INSERT INTO `blog_sysrecord` VALUES (4, '2019-08-21 10:59:19', '0:0:0:0:0:0:0:1', '/show/6', NULL);
-INSERT INTO `blog_sysrecord` VALUES (5, '2019-08-23 22:36:13', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (6, '2019-08-23 22:37:34', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (7, '2019-08-27 09:25:35', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (8, '2019-08-27 09:26:20', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (9, '2019-08-27 09:27:03', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (10, '2019-08-27 09:27:09', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (11, '2019-08-27 09:27:12', '0:0:0:0:0:0:0:1', '/page/3', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (12, '2019-08-27 09:27:14', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (13, '2019-08-27 09:27:39', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (14, '2019-08-27 09:34:12', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (15, '2019-08-27 09:36:53', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (16, '2019-08-27 09:37:26', '0:0:0:0:0:0:0:1', '/page/3', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (17, '2019-08-27 09:37:29', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (18, '2019-08-27 09:37:32', '0:0:0:0:0:0:0:1', '/page/1', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (19, '2019-08-27 09:37:46', '0:0:0:0:0:0:0:1', '/page/1', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (20, '2019-08-27 15:30:55', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (21, '2019-08-27 15:31:04', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (22, '2019-08-27 15:31:16', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (23, '2019-08-27 15:31:19', '0:0:0:0:0:0:0:1', '/page/1', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (24, '2019-08-27 15:31:22', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (25, '2019-08-27 15:31:30', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (26, '2019-08-27 15:31:39', '0:0:0:0:0:0:0:1', '/page/1', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (27, '2019-08-27 15:31:44', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (28, '2019-08-27 15:32:27', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (29, '2019-08-27 15:32:29', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (30, '2019-08-27 15:34:59', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (31, '2019-08-27 15:35:11', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (32, '2019-08-27 15:35:14', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (33, '2019-08-27 15:36:04', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (34, '2019-08-27 15:36:27', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (35, '2019-08-27 15:36:41', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (36, '2019-08-27 15:36:44', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (37, '2019-08-27 15:36:53', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (38, '2019-08-27 15:36:59', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (39, '2019-08-27 15:37:02', '0:0:0:0:0:0:0:1', '/page/1', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (40, '2019-08-27 15:37:53', '0:0:0:0:0:0:0:1', '/page/1', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (41, '2019-08-27 15:37:58', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (42, '2019-08-27 15:38:07', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (43, '2019-08-27 15:41:06', '0:0:0:0:0:0:0:1', '/page/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (44, '2019-08-27 15:41:10', '0:0:0:0:0:0:0:1', '/page/1', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (45, '2019-08-27 15:42:09', '0:0:0:0:0:0:0:1', '/show/7', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (46, '2019-08-27 15:43:15', '0:0:0:0:0:0:0:1', '/show/7', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (47, '2019-08-27 15:44:57', '0:0:0:0:0:0:0:1', '/show/7', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (48, '2019-08-27 15:45:33', '0:0:0:0:0:0:0:1', '/show/7', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (49, '2019-08-27 15:46:41', '0:0:0:0:0:0:0:1', '/show/7', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (50, '2019-08-27 15:48:43', '0:0:0:0:0:0:0:1', '/show/7', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (51, '2019-08-27 15:49:50', '0:0:0:0:0:0:0:1', '/show/7', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (52, '2019-08-27 15:50:25', '0:0:0:0:0:0:0:1', '/show/8', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (53, '2019-08-27 15:50:28', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (54, '2019-08-27 15:50:56', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (55, '2019-08-27 15:52:31', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (56, '2019-08-27 15:52:39', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (57, '2019-08-27 15:52:59', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (58, '2019-08-27 15:53:03', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (59, '2019-08-27 15:53:44', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (60, '2019-08-27 15:58:44', '0:0:0:0:0:0:0:1', '/saveComment', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (61, '2019-08-27 15:59:00', '0:0:0:0:0:0:0:1', '/saveReplay', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (62, '2019-08-27 16:02:08', '0:0:0:0:0:0:0:1', '/saveComment', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (63, '2019-08-27 16:06:03', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (64, '2019-08-27 16:06:52', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (65, '2019-08-28 09:33:41', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (66, '2019-08-28 09:34:23', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (67, '2019-08-28 09:35:46', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (68, '2019-08-28 09:36:36', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (69, '2019-08-28 09:39:21', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (70, '2019-08-28 09:39:50', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (71, '2019-08-28 09:40:50', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (72, '2019-08-28 09:45:32', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (73, '2019-08-28 09:47:39', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (74, '2019-08-28 09:48:53', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (75, '2019-08-28 09:49:25', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (76, '2019-08-28 09:50:09', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (77, '2019-08-28 09:50:48', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (78, '2019-08-28 09:52:19', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (79, '2019-08-28 09:52:33', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (80, '2019-08-28 10:50:56', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (81, '2019-08-28 10:51:05', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (82, '2019-08-28 10:51:09', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (83, '2019-08-28 10:51:09', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (84, '2019-08-28 10:54:05', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (85, '2019-08-28 10:54:11', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (86, '2019-08-28 10:55:59', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (87, '2019-08-28 10:56:04', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (88, '2019-08-28 10:56:13', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (89, '2019-08-28 10:56:16', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (90, '2019-08-28 10:57:38', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (91, '2019-08-28 10:57:41', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (92, '2019-08-28 10:57:50', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (93, '2019-08-28 10:57:55', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (94, '2019-08-28 11:00:11', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (95, '2019-08-28 11:00:17', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (96, '2019-08-28 11:01:22', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (97, '2019-08-28 11:01:30', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (98, '2019-08-28 11:02:33', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (99, '2019-08-28 11:02:36', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (100, '2019-08-28 11:06:10', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (101, '2019-08-28 11:06:20', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (102, '2019-08-28 11:07:24', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (103, '2019-08-28 11:07:26', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (104, '2019-08-28 11:07:29', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (105, '2019-08-28 11:09:22', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (106, '2019-08-28 11:09:27', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (107, '2019-08-28 11:10:36', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (108, '2019-08-28 11:10:48', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (109, '2019-08-28 11:12:55', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (110, '2019-08-28 11:12:59', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (111, '2019-08-28 11:13:18', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (112, '2019-08-28 11:18:41', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (113, '2019-08-28 11:19:16', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (114, '2019-08-28 11:19:19', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (115, '2019-08-28 11:19:26', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (116, '2019-08-28 11:19:26', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (117, '2019-08-28 11:19:30', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (118, '2019-08-28 11:19:30', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (119, '2019-08-28 11:19:30', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (120, '2019-08-28 11:19:31', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (121, '2019-08-28 11:25:11', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (122, '2019-08-28 11:26:38', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (123, '2019-08-28 11:26:46', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (124, '2019-08-28 11:26:51', '0:0:0:0:0:0:0:1', '/searchPage/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (125, '2019-08-28 11:26:59', '0:0:0:0:0:0:0:1', '/searchPage/2', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (126, '2019-08-28 11:27:23', '0:0:0:0:0:0:0:1', '/searchPage/1', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (127, '2019-08-28 11:28:45', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (128, '2019-08-28 11:29:16', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (129, '2019-08-28 11:29:53', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (130, '2019-08-28 11:29:56', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (131, '2019-08-28 11:32:06', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (132, '2019-08-28 11:32:58', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (133, '2019-08-28 11:33:01', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (134, '2019-08-28 11:34:12', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (135, '2019-08-28 11:34:36', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (136, '2019-08-28 11:34:43', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (137, '2019-08-28 11:35:22', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (138, '2019-08-28 11:35:33', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (139, '2019-08-28 11:35:43', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (140, '2019-08-28 11:43:36', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (141, '2019-08-28 11:44:09', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (142, '2019-08-28 11:44:33', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (143, '2019-08-28 11:47:24', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (144, '2019-08-28 11:48:23', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (145, '2019-08-28 11:49:15', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (146, '2019-08-28 11:49:19', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (147, '2019-08-28 11:49:21', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (148, '2019-08-28 11:49:27', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (149, '2019-08-28 12:00:54', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (150, '2019-08-28 12:01:11', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (151, '2019-08-28 12:01:12', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (152, '2019-08-28 12:01:13', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (153, '2019-08-28 12:01:13', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (154, '2019-08-28 12:01:13', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (155, '2019-08-28 12:01:44', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (156, '2019-08-28 12:01:47', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (157, '2019-08-28 12:01:47', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (158, '2019-08-28 12:01:54', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (159, '2019-08-28 12:01:54', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (160, '2019-08-28 12:03:37', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (161, '2019-08-28 12:03:46', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (162, '2019-08-28 12:03:46', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (163, '2019-08-28 12:03:59', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (164, '2019-08-28 12:03:59', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (165, '2019-08-28 12:04:45', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (166, '2019-08-28 12:04:48', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (167, '2019-08-28 12:04:49', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (168, '2019-08-28 12:04:54', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (169, '2019-08-28 12:05:33', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (170, '2019-08-28 12:13:45', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (171, '2019-08-28 12:14:12', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (172, '2019-08-28 12:14:15', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (173, '2019-08-28 12:14:15', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (174, '2019-08-28 12:14:21', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (175, '2019-08-28 12:14:21', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (176, '2019-08-28 12:14:33', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (177, '2019-08-28 12:14:33', '0:0:0:0:0:0:0:1', '/search', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (178, '2019-08-28 12:14:42', '0:0:0:0:0:0:0:1', '/searchTitle', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (179, '2019-08-28 12:14:57', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (180, '2019-08-28 12:15:01', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (181, '2019-08-28 12:19:27', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (182, '2019-08-28 12:19:29', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (183, '2019-08-28 12:20:32', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (184, '2019-08-28 12:22:25', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (185, '2019-08-28 12:28:33', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (186, '2019-08-28 12:29:00', '0:0:0:0:0:0:0:1', '/saveComment', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (187, '2019-08-28 12:30:06', '0:0:0:0:0:0:0:1', '/show/10', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (188, '2019-09-04 14:18:14', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (189, '2019-09-04 14:18:49', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (190, '2019-09-04 14:19:07', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (191, '2019-09-04 14:19:30', '0:0:0:0:0:0:0:1', '/', '无法解析');
-INSERT INTO `blog_sysrecord` VALUES (192, '2019-09-04 14:19:31', '0:0:0:0:0:0:0:1', '/', '无法解析');
+INSERT INTO `blog_sort` VALUES (7, '生活', 2, '2019-12-21 14:53:25', '2020-01-03 11:22:30', 1);
 
 -- ----------------------------
 -- Table structure for blog_user
@@ -454,19 +338,21 @@ CREATE TABLE `blog_user`  (
   `login_password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录密码',
   `nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '昵称',
   `login_role` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色',
+  `status` tinyint(1) NULL DEFAULT 0 COMMENT '是否激活，默认为0',
+  `create_by` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_user
 -- ----------------------------
-INSERT INTO `blog_user` VALUES (1, 'admin', '$2a$10$2GUI.ArknQlbg2Jte4XAkOc/8bqQWTDT6lOuqi7vSgglmey7q1bh2', '林北', 'ROLE_ADMIN');
-INSERT INTO `blog_user` VALUES (2, '846179345@qq.com', '$2a$10$bQ2cJhEiqtFwm2wu4ZWO4eJoHg0iJUNwVvH.fZUL2zVCSNlSPgJmC', '林北', 'ROLE_USER');
-INSERT INTO `blog_user` VALUES (3, '777@jd.com', '$2a$10$P/HWU3k6R52zE9EaMcxoeOURrWsIjzyu3EceGcT3xNgvZ0CZj933K', '柠檬', 'ROLE_USER');
-INSERT INTO `blog_user` VALUES (4, '888@jd.com', '$2a$10$92mu3dBWcopoJsbi59maLutCfTAcZOWhaLEtFcSFQGy.1YY56tid6', '??', 'ROLE_USER');
-INSERT INTO `blog_user` VALUES (5, '66@jd.com', '$2a$10$OiadPu25uUs.cSV3r2RViObPVaOY.0/.weNHAtaKKNwn9slm8Qs8O', '哈哈', 'ROLE_USER');
-INSERT INTO `blog_user` VALUES (6, '555@tgu.com', '$2a$10$W4V6wi51PgPin53urP93Aexbo.QE4tG9FfHGeJsvrStbqc.L8R1y.', '老6', 'ROLE_USER');
-INSERT INTO `blog_user` VALUES (7, '789@jd.com', '$2a$10$0MC8O6vPyBMA/90o8/ct0e8yz8ZJYFsY6bihi5PujbgpX30yBK5gm', '小二', 'ROLE_USER');
+INSERT INTO `blog_user` VALUES (1, 'admin', '$2a$10$2GUI.ArknQlbg2Jte4XAkOc/8bqQWTDT6lOuqi7vSgglmey7q1bh2', '林北', 'ROLE_ADMIN', 1, '2019-12-28 14:17:02');
+INSERT INTO `blog_user` VALUES (3, '777@jd.com', '$2a$10$P/HWU3k6R52zE9EaMcxoeOURrWsIjzyu3EceGcT3xNgvZ0CZj933K', '柠檬', 'ROLE_USER', 1, '2019-12-28 14:17:02');
+INSERT INTO `blog_user` VALUES (5, '66@jd.com', '$2a$10$OiadPu25uUs.cSV3r2RViObPVaOY.0/.weNHAtaKKNwn9slm8Qs8O', '哈哈', 'ROLE_USER', 0, '2019-12-28 14:17:02');
+INSERT INTO `blog_user` VALUES (6, '555@tgu.com', '$2a$10$W4V6wi51PgPin53urP93Aexbo.QE4tG9FfHGeJsvrStbqc.L8R1y.', '老6', 'ROLE_USER', 0, '2019-12-28 14:17:02');
+INSERT INTO `blog_user` VALUES (7, '789@jd.com', '$2a$10$0MC8O6vPyBMA/90o8/ct0e8yz8ZJYFsY6bihi5PujbgpX30yBK5gm', '小二', 'ROLE_USER', 0, '2019-12-28 14:17:02');
+INSERT INTO `blog_user` VALUES (46, '846179345@qq.com', '$2a$10$HZA.etwGUiV7n.L2wab71uaOO0evxxAI8BqlV0QQ43/skt9sIKhwq', 'jkjkjk', 'ROLE_USER', 1, '2019-12-28 14:17:02');
+INSERT INTO `blog_user` VALUES (47, 'wanglongjun6@jd.com', '$2a$10$MlGkBR9OHYbKTDasYSp3UeY7c3RYfdLTc3XaPmzlTR2Hj6TsSlIuS', '哈士奇', 'ROLE_USER', 1, '2019-12-28 14:17:02');
 
 -- ----------------------------
 -- Table structure for blog_user_like
@@ -478,12 +364,12 @@ CREATE TABLE `blog_user_like`  (
   `article_id` bigint(20) NOT NULL COMMENT '被点赞的文章id',
   `like_status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '用户是否点赞，默认为0，0未点赞，1点赞',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_user_like
 -- ----------------------------
-INSERT INTO `blog_user_like` VALUES (1, '林北', 21, 0);
+INSERT INTO `blog_user_like` VALUES (1, '林北', 21, 1);
 INSERT INTO `blog_user_like` VALUES (2, '林北', 18, 1);
 INSERT INTO `blog_user_like` VALUES (3, '林北', 17, 0);
 INSERT INTO `blog_user_like` VALUES (4, '小二', 17, 0);
@@ -495,5 +381,44 @@ INSERT INTO `blog_user_like` VALUES (9, 'anonymousUser', 18, 0);
 INSERT INTO `blog_user_like` VALUES (10, '柠檬', 18, 1);
 INSERT INTO `blog_user_like` VALUES (11, '老6', 18, 1);
 INSERT INTO `blog_user_like` VALUES (12, '哈哈', 18, 1);
+INSERT INTO `blog_user_like` VALUES (13, '柠檬', 19, 0);
+INSERT INTO `blog_user_like` VALUES (14, 'anonymousUser', 19, 0);
+INSERT INTO `blog_user_like` VALUES (15, 'anonymousUser', 10, 0);
+INSERT INTO `blog_user_like` VALUES (16, '柠檬', 20, 0);
+INSERT INTO `blog_user_like` VALUES (17, '哈士奇', 20, 1);
+INSERT INTO `blog_user_like` VALUES (18, '哈士奇', 18, 0);
+INSERT INTO `blog_user_like` VALUES (19, 'anonymousUser', 22, 0);
+INSERT INTO `blog_user_like` VALUES (20, '哈士奇', 22, 1);
+INSERT INTO `blog_user_like` VALUES (21, '哈士奇', 19, 1);
+INSERT INTO `blog_user_like` VALUES (22, '哈士奇', 23, 0);
+INSERT INTO `blog_user_like` VALUES (23, 'anonymousUser', 21, 0);
+INSERT INTO `blog_user_like` VALUES (24, '哈士奇', 21, 0);
+INSERT INTO `blog_user_like` VALUES (25, 'anonymousUser', 23, 0);
+INSERT INTO `blog_user_like` VALUES (26, '林北', 23, 1);
+INSERT INTO `blog_user_like` VALUES (27, 'jkjkjk', 23, 1);
+INSERT INTO `blog_user_like` VALUES (28, '林北', 15, 0);
+INSERT INTO `blog_user_like` VALUES (29, '林北', 10, 1);
+INSERT INTO `blog_user_like` VALUES (30, 'jkjkjk', 22, 1);
+INSERT INTO `blog_user_like` VALUES (31, 'anonymousUser', 20, 0);
+INSERT INTO `blog_user_like` VALUES (32, '林北', 22, 0);
+
+-- ----------------------------
+-- Table structure for blog_user_view
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_user_view`;
+CREATE TABLE `blog_user_view`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `view` bigint(20) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog_user_view
+-- ----------------------------
+INSERT INTO `blog_user_view` VALUES (1, '小二', 10);
+INSERT INTO `blog_user_view` VALUES (2, '林北', 3);
+INSERT INTO `blog_user_view` VALUES (3, '柠檬', 1);
+INSERT INTO `blog_user_view` VALUES (5, '哈士奇', 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
