@@ -1,0 +1,7 @@
+server:
+  port: 7777
+logging:
+  level:
+    root: info
+    com.lb.lblog: error
+  file: log/blog.log

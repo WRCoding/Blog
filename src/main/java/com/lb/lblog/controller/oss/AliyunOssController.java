@@ -70,7 +70,7 @@ public class AliyunOssController {
 
     @RequestMapping("/image")
     @ResponseBody
-    public ResponseResult image(@RequestParam("imageFile") MultipartFile file, Model model) {
+    public ResponseResult image(@RequestParam("imageFile") MultipartFile file) {
         ResponseResult responseResult = new ResponseResult();
         String filename = file.getOriginalFilename();
         File newFile = new File(filename);
